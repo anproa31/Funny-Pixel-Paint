@@ -1,8 +1,6 @@
 <br />
 <p align="center">
-  <a href="#">
-    <img src=".github/logo.png" alt="Logo"  height="80">
-  </a>
+
 
   <h3 align="center">PaintPix</h3>
 
@@ -13,7 +11,6 @@
 </p>
 
 
-[![Product Name Screen Shot][product-screenshot]](#)
 
 
 ## Getting Started
@@ -42,10 +39,9 @@ Just submit a pull request.
 
 ## Contributors
 
-* **[yxor](https://github.com/yxor)** 
-* **[maminetaieb](https://github.com/maminetaieb)**
-* **[malekkselmi](https://github.com/malekkselmi)**
-* **[PapaTato](https://github.com/PapaTato)**
+* **[phuocn0302](https://github.com/yxor)** 
+* **[anproa31](https://github.com/maminetaieb)**
+
 
 
 ## License
