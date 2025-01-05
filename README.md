@@ -41,7 +41,7 @@ Just submit a pull request.
 
 * **[phuocn0302](https://github.com/phuocn0302)** 
 * **[anproa31](https://github.com/anproa31)**
-
+* **[IchihanaYue](https://github.com/IchihanaYue)**
 
 
 ## License
