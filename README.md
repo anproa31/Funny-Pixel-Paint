@@ -2,7 +2,7 @@
 <p align="center">
 
 
-  <h3 align="center">PaintPix</h3>
+  <h3 align="center">Funny Paint</h3>
 
   <p align="center">
     Lightweight desktop application to draw pixel art built with Swing.

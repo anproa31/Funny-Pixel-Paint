@@ -223,15 +223,15 @@ public class MainController {
 	{
 		if(this.canvas == null)
 			return;
-		
+
 		SaveCanvasDialog d = new SaveCanvasDialog(this.mainFrame, this.canvas);
-		
+
 		int closeOption = d.showOpenDialog();
-		
+
 		if(closeOption != SaveCanvasDialog.APPROVE_OPTION)
 			return;
-		
-		
+
+
 		BufferedImage scaled = ImageFileManager.resize(this.canvas.getImage(), d.getChosenWidth(), d.getChosenHeight());
 		ImageFileManager.save(scaled, d.getChosenAbsolutePath());
 		this.canvas.setSavePath(d.getChosenAbsolutePath());
