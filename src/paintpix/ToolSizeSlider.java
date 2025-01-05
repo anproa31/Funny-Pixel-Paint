@@ -22,11 +22,11 @@ public class ToolSizeSlider extends JToolBar {
 	
 	public ToolSizeSlider() {
 
-		this.size = 2;
+		this.size = 1;
 		sliderLabel = new JLabel(String.format("Size: %-2dpx", this.size));
 		//primaryLabel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		
-		slider = new JSlider(2, 50, this.size);
+		slider = new JSlider(1, 50, this.size);
 		//slider.setAlignmentX(LEFT_ALIGNMENT);
 		slider.addChangeListener(new ChangeListener() {
 			

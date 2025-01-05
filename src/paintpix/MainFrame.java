@@ -46,7 +46,7 @@ public class MainFrame extends JFrame  {
 	  
 	    // creating the components
 	    colorPicker = new ColorPicker(Color.BLACK);
-		colorPicker.setPreferredSize(new Dimension(500, 600));
+		colorPicker.setPreferredSize(new Dimension(550, 600));
 		toolPanel = new ToolPanel();
 		controlPanel = new ControlPanel();
 		

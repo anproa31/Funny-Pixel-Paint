@@ -37,7 +37,7 @@ public class ColorPicker extends JPanel {
 
 		// Create a split pane to divide the color chooser into two parts
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		splitPane.setResizeWeight(0.5); // Split the space equally
+		splitPane.setResizeWeight(0.8); // Split the space equally
 
 		// Create a custom swatches panel
 		JPanel customSwatches = new JPanel();

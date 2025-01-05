@@ -131,23 +131,7 @@ public class PixelCanvas extends JComponent implements Serializable{
 		repaint();
 		
 	}
-	
-	public void drawPixel(int x, int y, Color c)
-	{
-		int realX = this.getScaledCoord(x);
-		int realY = this.getScaledCoord(y);
-		
-		Graphics2D g2d = this.pixels.createGraphics();
-		
-		
-        Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) c.getAlpha() / 255f);
-        
-		g2d.setColor(c);
-        g2d.setComposite(comp);
-        g2d.drawLine(realX, realY, realX, realY);
 
-		g2d.dispose();
-	}
 	
 	public void zoom(double scale, Point p)
 	{	
@@ -439,13 +423,13 @@ public class PixelCanvas extends JComponent implements Serializable{
 		ObjectInputStream in = null;
 		try {
 			in = new ObjectInputStream(bis);
-			
+
 			PixelCanvas canvas = (PixelCanvas) in.readObject();
-			
+
 			BufferedImage image = ImageIO.read(in);
 			canvas.pixels = image;
 			canvas.addMouseWheelListener(new MouseAdapter () {
-	    		
+
 	        	public void mouseWheelMoved(MouseWheelEvent e)
 	            {
 	        		double scale = e.getPreciseWheelRotation();
@@ -454,10 +438,10 @@ public class PixelCanvas extends JComponent implements Serializable{
 
 	            }
 	        });
-	        
+
 	        canvas.undoManager = new CanvasUndoManager();
 			return canvas;
-		  
+
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -469,7 +453,7 @@ public class PixelCanvas extends JComponent implements Serializable{
 				// ignore close exception
 			}
 		}
-		
+
 		return null;
 	}
 	

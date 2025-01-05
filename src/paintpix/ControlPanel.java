@@ -15,11 +15,10 @@ public class ControlPanel extends JToolBar {
 		
 		ButtonListener listener = new ButtonListener();
 		
-		String[] buttonLabels = {"New", "Open", "Save", "Save As", "Undo", "Redo"};
+		String[] buttonLabels = {"New", "Open", "Save As", "Undo", "Redo"};
 		ImageIcon[] buttonIcons = {
 				new ImageIcon("resources/new.png"),
 				new ImageIcon("resources/open.png"),
-				new ImageIcon("resources/save.png"),
 				new ImageIcon("resources/save.png"),
 				new ImageIcon("resources/undo.png"),
 				new ImageIcon("resources/redo.png"),
@@ -50,10 +49,6 @@ public class ControlPanel extends JToolBar {
 				break;
 			case "Open":
 				controller.openCanvasFromFileSystem();
-				break;	
-			case "Save":
-				if(controller.getCanvas() == null) return;
-				controller.saveCanvas();
 				break;
 				
 			case "Save As":

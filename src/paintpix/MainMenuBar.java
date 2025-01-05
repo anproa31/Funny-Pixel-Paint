@@ -46,17 +46,7 @@ public class MainMenuBar extends JMenuBar{
 				
 			}
 		});
-		
-		JMenuItem saveMenuItem = new JMenuItem("Save");
-		saveMenuItem.setIcon(new ImageIcon("resources/save_s.png"));
-		saveMenuItem.addActionListener(new AbstractAction() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.saveCanvas();
-				
-			}
-		});
 		
 		JMenuItem saveAsMenuItem = new JMenuItem("Save As...");
 		saveAsMenuItem.setIcon(new ImageIcon("resources/save_s.png"));
@@ -141,7 +131,6 @@ public class MainMenuBar extends JMenuBar{
 		fileMenu.addSeparator();
 		fileMenu.add(recentlyOpenedMenu);
 		fileMenu.addSeparator();
-		fileMenu.add(saveMenuItem);
 		fileMenu.add(saveAsMenuItem);
 		fileMenu.add(closeMenuItem);
 		fileMenu.addSeparator();
@@ -213,7 +202,6 @@ public class MainMenuBar extends JMenuBar{
 			public void menuSelected(MenuEvent e) {
 				PixelCanvas canvas = controller.getCanvas();
 				boolean doesCanvasExist = canvas != null;
-				saveMenuItem.setEnabled(doesCanvasExist);
 				saveAsMenuItem.setEnabled(doesCanvasExist);
 				closeMenuItem.setEnabled(doesCanvasExist);
 				
