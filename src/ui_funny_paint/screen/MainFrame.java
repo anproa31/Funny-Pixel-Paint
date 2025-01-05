@@ -3,6 +3,7 @@ package ui_funny_paint.screen;
 
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import controller.canvas.CanvasController;
 import model.DatabaseManager;
@@ -61,6 +62,7 @@ public class MainFrame extends JFrame  {
 
         canvasPanel = new JPanel(new GridBagLayout());
         canvasContainer = new JScrollPane(canvasPanel);
+
         colorToggler = new ColorToggler(Color.BLACK, Color.WHITE);
         controlPanel.add(colorToggler);
         // creating Main controller

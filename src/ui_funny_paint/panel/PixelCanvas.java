@@ -17,6 +17,9 @@ import controller.tools.Tool;
 public class PixelCanvas extends JComponent implements Serializable {
 	transient private BufferedImage pixels;
 
+	private int chessboardWidth;  // Width of the chessboard in pixels
+	private int chessboardHeight; // Height of the chessboard in pixels
+
 	// Save information
 	private String savePath;
 	private int saveWidth;
@@ -65,6 +68,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 		addMouseWheelListener(mouseAdapter);
 	}
 
+
 	/**
 	 * Constructor that creates a canvas from an image.
 	 *
@@ -89,6 +93,33 @@ public class PixelCanvas extends JComponent implements Serializable {
 				(int) Math.round(pixels.getHeight() * scaleFactor + 2));
 	}
 
+
+
+//	@Override
+//	public void paintComponent(Graphics g) {
+//		super.paintComponent(g);
+//		Graphics2D g2d = (Graphics2D) g;
+//
+//		// Recalculate the Image dimensions
+//		this.width = (int) Math.round(pixels.getWidth() * scaleFactor + 2);
+//		this.height = (int) Math.round(pixels.getHeight() * scaleFactor + 2);
+//		this.revalidate();
+//
+//		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+//				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+//		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+//				RenderingHints.VALUE_ANTIALIAS_ON);
+//
+//		Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
+//		g2d.setComposite(comp);
+//
+//		g2d.drawImage(this.pixels, 1, 1, width - 2, height - 2, null);
+//
+//		// Draw one pixel wide border around the canvas
+//		g2d.drawRect(0, 0, width - 1, height - 1);
+//		g2d.dispose();
+//	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -107,11 +138,98 @@ public class PixelCanvas extends JComponent implements Serializable {
 		Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
 		g2d.setComposite(comp);
 
+		// Draw the chessboard pattern
+		drawChessboard(g2d);
+
+		// Draw the canvas image
 		g2d.drawImage(this.pixels, 1, 1, width - 2, height - 2, null);
 
 		// Draw one pixel wide border around the canvas
 		g2d.drawRect(0, 0, width - 1, height - 1);
 		g2d.dispose();
+	}
+
+	private void drawChessboard(Graphics2D g2d) {
+		int squareSize = 16; // Each square is 16x16 pixels (unscaled)
+		int scaledSquareSize = (int) (squareSize * scaleFactor); // Scale the square size based on zoom level
+
+		int canvasWidth = pixels.getWidth();
+		int canvasHeight = pixels.getHeight();
+
+		// Calculate the number of full squares that fit in the canvas
+		int numSquaresX = canvasWidth / squareSize;
+		int numSquaresY = canvasHeight / squareSize;
+
+		// Calculate the remaining pixels after drawing full squares
+		int remainingX = canvasWidth % squareSize;
+		int remainingY = canvasHeight % squareSize;
+
+		// Draw the chessboard pattern
+		for (int y = 0; y < numSquaresY; y++) {
+			for (int x = 0; x < numSquaresX; x++) {
+				if ((x + y) % 2 == 0) {
+					g2d.setColor(Color.WHITE);
+				} else {
+					g2d.setColor(Color.LIGHT_GRAY);
+				}
+				// Scale the position and size of each square
+				g2d.fillRect(
+						(int) (x * squareSize * scaleFactor),
+						(int) (y * squareSize * scaleFactor),
+						scaledSquareSize,
+						scaledSquareSize
+				);
+			}
+		}
+
+		// Handle the remaining pixels on the right side
+		if (remainingX > 0) {
+			for (int y = 0; y < numSquaresY; y++) {
+				if ((numSquaresX + y) % 2 == 0) {
+					g2d.setColor(Color.WHITE);
+				} else {
+					g2d.setColor(Color.LIGHT_GRAY);
+				}
+				g2d.fillRect(
+						(int) (numSquaresX * squareSize * scaleFactor),
+						(int) (y * squareSize * scaleFactor),
+						(int) (remainingX * scaleFactor),
+						scaledSquareSize
+				);
+			}
+		}
+
+		// Handle the remaining pixels at the bottom
+		if (remainingY > 0) {
+			for (int x = 0; x < numSquaresX; x++) {
+				if ((x + numSquaresY) % 2 == 0) {
+					g2d.setColor(Color.WHITE);
+				} else {
+					g2d.setColor(Color.LIGHT_GRAY);
+				}
+				g2d.fillRect(
+						(int) (x * squareSize * scaleFactor),
+						(int) (numSquaresY * squareSize * scaleFactor),
+						scaledSquareSize,
+						(int) (remainingY * scaleFactor)
+				);
+			}
+		}
+
+		// Handle the bottom-right corner if both remainingX and remainingY are greater than 0
+		if (remainingX > 0 && remainingY > 0) {
+			if ((numSquaresX + numSquaresY) % 2 == 0) {
+				g2d.setColor(Color.WHITE);
+			} else {
+				g2d.setColor(Color.LIGHT_GRAY);
+			}
+			g2d.fillRect(
+					(int) (numSquaresX * squareSize * scaleFactor),
+					(int) (numSquaresY * squareSize * scaleFactor),
+					(int) (remainingX * scaleFactor),
+					(int) (remainingY * scaleFactor)
+			);
+		}
 	}
 
 	public void fill(Color c) {
@@ -126,6 +244,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 		JPanel canvasPanel = this.controller.getCanvasPanel();
 		double oldScale = this.scaleFactor;
 		double newScale = scaleFactor * ((scale < 0) ? 1.1f : 0.9f);
+
 		// Restrict zooming in too far or out too far (10 times).
 		double scaleByDefault = newScale / controller.calculateScale();
 		if (scaleByDefault < 0.1 || scaleByDefault > 10)
@@ -134,6 +253,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 		this.scaleFactor = newScale;
 		double scaleChange = this.scaleFactor / oldScale;
 
+		// Calculate the new scroll position based on the mouse cursor
 		Rectangle visibleRect = canvasPanel.getVisibleRect();
 		double scrollX = p.getX() * scaleChange - (p.getX() - visibleRect.getX());
 		double scrollY = p.getY() * scaleChange - (p.getY() - visibleRect.getY());
@@ -142,6 +262,8 @@ public class PixelCanvas extends JComponent implements Serializable {
 		canvasPanel.scrollRectToVisible(visibleRect);
 		repaint();
 	}
+
+
 
 	public void drawBrush(int x, int y, Color c) {
 		int brushSize = controller.getSize(); // Get the brush size
@@ -157,6 +279,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 
 		g2d.dispose();
 	}
+
 
 	/**
 	 * Draws a line between two points using the brush.
@@ -441,3 +564,9 @@ public class PixelCanvas extends JComponent implements Serializable {
 	}
 
 }
+
+
+
+
+
+
