@@ -4,8 +4,6 @@ import controller.canvas.CanvasController;
 import ui_funny_paint.component.button.ColorToggler;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,10 +17,10 @@ import javax.swing.event.ChangeListener;
 public class ColorPicker extends JPanel {
 	private CanvasController controller;
 	private JColorChooser colorChooser;
-	private JPanel customSwatches;
 	private JPanel swatchesPanel;
-	private JTabbedPane colorBoxPanel;
+	private JPanel colorBoxPanel;
 	private ArrayList<JButton> colorPaletteButton = new ArrayList<>();
+	private ToolPanel toolPanel;
 
 	private class Listener implements ChangeListener {
 		@Override
@@ -61,12 +59,13 @@ public class ColorPicker extends JPanel {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.weightx = 1.0;
-		gbc.weighty = 0.9;
+		gbc.weighty = 1;
 		this.add(swatchesPanel, gbc);
 
 		// Add the tabbed pane to the bottom of the GridBagLayout
 		gbc.gridx = 0;
 		gbc.gridy = 1;
+		gbc.weightx = 1.0;
 		gbc.weighty = 0.1;
 		gbc.fill = GridBagConstraints.BOTH;
 		this.add(colorBoxPanel, gbc);
@@ -79,20 +78,22 @@ public class ColorPicker extends JPanel {
 	private void CreateColorWheelPanel(Color initialColor)
 	{
 		colorChooser = new JColorChooser(initialColor);
-		colorBoxPanel = new JTabbedPane();
+		colorBoxPanel = new JPanel();
+
+		colorChooser.setPreviewPanel(new JPanel());
 
 		AbstractColorChooserPanel[] panels = colorChooser.getChooserPanels();
-		// Add
-		for (AbstractColorChooserPanel p : panels) {
-			if (!(p.getDisplayName().equals("CMYK") || p.getDisplayName().equals("Swatches"))) {
-				colorBoxPanel.addTab(p.getDisplayName(),p);
-			}
+		for (AbstractColorChooserPanel panel : panels) {
+			colorChooser.removeChooserPanel(panel);
 		}
+
+		colorChooser.addChooserPanel(new CustomHSVChooserPanel());
+		colorBoxPanel.add(colorChooser);
 	}
 
 	private void CreateSwatches()
 	{
-		customSwatches = new JPanel();
+		JPanel customSwatches = new JPanel();
 		customSwatches.setLayout(new GridBagLayout()); // Use GridBagLayout for more control
 		GridBagConstraints swatchesGbc = new GridBagConstraints();
 		swatchesGbc.insets = new Insets(1, 1, 1, 1); // Add some padding between buttons
@@ -128,11 +129,6 @@ public class ColorPicker extends JPanel {
 		swatchesPanel = new JPanel();
 		swatchesPanel.setLayout(new BorderLayout());
 		swatchesPanel.add(customSwatches);
-	}
-
-	private void OnResize()
-	{
-		UpdateColorButtonSize();
 	}
 
 	public void UpdateColorButtonSize()
