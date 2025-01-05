@@ -14,7 +14,6 @@ public class ToolPanel extends JToolBar {
 	private BrushTool brush;
 	private BucketTool bucket;
 	private EyeDropperTool eyeDropper;
-//	private PencilTool pencil;
 	private EraserTool eraser;
 
 	
@@ -28,13 +27,11 @@ public class ToolPanel extends JToolBar {
 		this.brush = new BrushTool();
 		this.bucket = new BucketTool();
 		this.eyeDropper = new EyeDropperTool();
-//		this.pencil = new PencilTool();
 		this.eraser = new EraserTool();
 		
 		
 		String[] buttonLabels = { "Brush", "Eraser", "EyeDropper", "Bucket"};
 		ImageIcon[] buttonIcons = {
-//				new ImageIcon("resources/pencil_1.png"),
 				new ImageIcon("resources/paintbrush.png"),
 				new ImageIcon("resources/eraser.png"),
 				new ImageIcon("resources/eyedropper.png"),
@@ -59,9 +56,6 @@ public class ToolPanel extends JToolBar {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch(e.getActionCommand()) {
-//			case "Pencil":
-//				controller.setCanvasTool(pencil);
-//				break;
 				
 			case "Bucket":
 				controller.setCanvasTool(bucket);

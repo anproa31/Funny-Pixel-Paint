@@ -21,13 +21,13 @@ public class MainFrame extends JFrame  {
 	private MainController controller;
 	
 	public MainFrame() {
-	    super("PaintPix");
+	    super("Funny Paint");
 
 
 	    Container mainPane = this.getContentPane();
 	    mainPane.setLayout(new BorderLayout());
 	    
-	    setPreferredSize(new Dimension(600, 700));
+	    setPreferredSize(new Dimension(1500, 1000));
 	    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 	    
 	    // what happens  when the window is closed
@@ -46,6 +46,7 @@ public class MainFrame extends JFrame  {
 	  
 	    // creating the components
 	    colorPicker = new ColorPicker(Color.BLACK);
+		colorPicker.setPreferredSize(new Dimension(500, 600));
 		toolPanel = new ToolPanel();
 		controlPanel = new ControlPanel();
 		
