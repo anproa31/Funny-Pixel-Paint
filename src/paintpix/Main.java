@@ -20,8 +20,8 @@ public class Main {
 	        	}
 	            MainFrame frame = new MainFrame();
 	            frame.setVisible(true);
-	            frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-	    	}
+				frame.setLocationRelativeTo(null);
+			}
 	    });
 	}
 }
