@@ -5,6 +5,7 @@ import ui_funny_paint.component.button.ColorToggler;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,7 +25,11 @@ public class ColorPicker extends JPanel {
 	}
 
 	public ColorPicker(Color initialColor) {
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		// Set the layout to GridBagLayout
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5); // Add some padding between components
+		gbc.fill = GridBagConstraints.BOTH; // Make components fill their space
 
 		// Create the main color chooser
 		colorChooser = new JColorChooser(initialColor);
@@ -38,15 +43,11 @@ public class ColorPicker extends JPanel {
 			}
 		}
 
-		// Create a split pane to divide the color chooser into two parts
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		splitPane.setResizeWeight(0.8); // Split the space equally
-
 		// Create a custom swatches panel
 		JPanel customSwatches = new JPanel();
 		customSwatches.setLayout(new GridBagLayout()); // Use GridBagLayout for more control
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(2, 2, 2, 2); // Add some padding between buttons
+		GridBagConstraints swatchesGbc = new GridBagConstraints();
+		swatchesGbc.insets = new Insets(2, 2, 2, 2); // Add some padding between buttons
 
 		// Define a larger color palette
 		Color[] customColors = {
@@ -94,9 +95,9 @@ public class ColorPicker extends JPanel {
 			colorButton.addActionListener(e -> colorChooser.setColor(customColors[finalI])); // Set selected color
 
 			// Add the button to the grid
-			gbc.gridx = i % columns; // Column index
-			gbc.gridy = i / columns; // Row index
-			customSwatches.add(colorButton, gbc);
+			swatchesGbc.gridx = i % columns; // Column index
+			swatchesGbc.gridy = i / columns; // Row index
+			customSwatches.add(colorButton, swatchesGbc);
 		}
 
 		// Create a panel to hold the custom swatches at the top
@@ -124,18 +125,34 @@ public class ColorPicker extends JPanel {
 			}
 		}
 
-		// Add the panels to the split pane
-		splitPane.setTopComponent(swatchesPanel);
-		splitPane.setBottomComponent(tabbedPane);
+		// Add the swatches panel to the top of the GridBagLayout
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.7; // Give swatches panel half the height
+		this.add(swatchesPanel, gbc);
 
-		// Add the split pane to the main panel
-		this.add(splitPane);
+		// Add a separator between swatches and the tabbed pane
+		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+		gbc.gridy = 1;
+		gbc.weighty = 0.0; // No extra space for the separator
+		gbc.fill = GridBagConstraints.HORIZONTAL; // Make the separator span horizontally
+		this.add(separator, gbc);
+
+		// Add the tabbed pane to the bottom of the GridBagLayout
+		gbc.gridy = 2;
+		gbc.weighty = 0.3; // Give tabbed pane the other half of the height
+		gbc.fill = GridBagConstraints.BOTH; // Make the tabbed pane fill the space
+		this.add(tabbedPane, gbc);
 
 		// Add a change listener to the color chooser
 		colorChooser.getSelectionModel().addChangeListener(new Listener());
 
 		// Set a border for the color picker
-		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Empty border with padding
+		this.setBorder(BorderFactory.createCompoundBorder(
+				new LineBorder(Color.GRAY, 1), // Outer border
+				BorderFactory.createEmptyBorder(10, 10, 10, 10) // Inner padding
+        ));
 	}
 
 	public void setController(CanvasController controller) {

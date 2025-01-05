@@ -1,5 +1,6 @@
 package controller.canvas;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JOptionPane;
@@ -85,9 +86,9 @@ public class CanvasController {
 		boolean closedCanvas = this.closeCanvas();
 		if(!closedCanvas)
 			return false;
-		
 
-		
+
+
 		this.canvas = new PixelCanvas(width, height);
 		this.canvas.setSelectedTool(this.activeTool);
 
@@ -100,7 +101,7 @@ public class CanvasController {
 		this.mainFrame.revalidate();
 		return true;
 	}
-	
+
 	
 	public boolean createCanvas(BufferedImage image)
 	{

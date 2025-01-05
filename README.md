@@ -39,8 +39,8 @@ Just submit a pull request.
 
 ## Contributors
 
-* **[phuocn0302](https://github.com/yxor)** 
-* **[anproa31](https://github.com/maminetaieb)**
+* **[phuocn0302](https://github.com/phuocn0302)** 
+* **[anproa31](https://github.com/anproa31)**
 
 
 
