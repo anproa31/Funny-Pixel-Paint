@@ -68,7 +68,6 @@ public class PixelCanvas extends JComponent implements Serializable {
 		addMouseWheelListener(mouseAdapter);
 	}
 
-
 	/**
 	 * Constructor that creates a canvas from an image.
 	 *
@@ -92,33 +91,6 @@ public class PixelCanvas extends JComponent implements Serializable {
 		return new Dimension((int) Math.round(pixels.getWidth() * scaleFactor + 2),
 				(int) Math.round(pixels.getHeight() * scaleFactor + 2));
 	}
-
-
-
-//	@Override
-//	public void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-//		Graphics2D g2d = (Graphics2D) g;
-//
-//		// Recalculate the Image dimensions
-//		this.width = (int) Math.round(pixels.getWidth() * scaleFactor + 2);
-//		this.height = (int) Math.round(pixels.getHeight() * scaleFactor + 2);
-//		this.revalidate();
-//
-//		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-//				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-//		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-//				RenderingHints.VALUE_ANTIALIAS_ON);
-//
-//		Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
-//		g2d.setComposite(comp);
-//
-//		g2d.drawImage(this.pixels, 1, 1, width - 2, height - 2, null);
-//
-//		// Draw one pixel wide border around the canvas
-//		g2d.drawRect(0, 0, width - 1, height - 1);
-//		g2d.dispose();
-//	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -263,8 +235,6 @@ public class PixelCanvas extends JComponent implements Serializable {
 		repaint();
 	}
 
-
-
 	public void drawBrush(int x, int y, Color c) {
 		int brushSize = controller.getSize(); // Get the brush size
 		int realX = this.getScaledCoord(x, brushSize); // Scale coordinates based on zoom level
@@ -279,7 +249,6 @@ public class PixelCanvas extends JComponent implements Serializable {
 
 		g2d.dispose();
 	}
-
 
 	/**
 	 * Draws a line between two points using the brush.
@@ -327,6 +296,35 @@ public class PixelCanvas extends JComponent implements Serializable {
 		g2d.dispose();
 	}
 
+	public void eraseLine(int x1, int y1, int x2, int y2) {
+		int brushSize = controller.getSize();
+
+		// Use Bresenham's line algorithm to interpolate between the two points
+		int dx = Math.abs(x2 - x1);
+		int dy = Math.abs(y2 - y1);
+		int sx = (x1 < x2) ? 1 : -1;
+		int sy = (y1 < y2) ? 1 : -1;
+		int err = dx - dy;
+
+		while (true) {
+			// Erase at the current position
+			erase(x1, y1);
+
+			// Stop if we've reached the end point
+			if (x1 == x2 && y1 == y2) break;
+
+			int e2 = 2 * err;
+			if (e2 > -dy) {
+				err -= dy;
+				x1 += sx;
+			}
+			if (e2 < dx) {
+				err += dx;
+				y1 += sy;
+			}
+		}
+	}
+
 	public void floodFill(int x, int y, Color c) {
 		int realX = getScaledCoord(x);
 		int realY = getScaledCoord(y);
@@ -363,7 +361,8 @@ public class PixelCanvas extends JComponent implements Serializable {
 			}
 		}
 	}
-		public void changeHappened() {
+
+	public void changeHappened() {
 		this.changedAfterSave = true;
 		this.undoManager.changeHappened(this.pixels.getData());
 	}
@@ -562,11 +561,4 @@ public class PixelCanvas extends JComponent implements Serializable {
 
 		return null;
 	}
-
 }
-
-
-
-
-
-
