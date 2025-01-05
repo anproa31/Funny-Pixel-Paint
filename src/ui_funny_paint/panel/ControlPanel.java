@@ -29,14 +29,12 @@ public class ControlPanel extends JToolBar {
 
 		JButton[] buttons = new JButton[buttonLabels.length];
 		for (int i = 0; i < buttons.length; i++) {
-
 			buttons[i] = new JButton(buttonIcons[i]);
-			buttons[i].setSize(20, 20);
 			buttons[i].setActionCommand(buttonLabels[i]);
 			buttons[i].setToolTipText(buttonLabels[i]);
 			buttons[i].addActionListener(listener);
+			buttons[i].setMargin(new Insets(5,15,5,15));
 			this.add(buttons[i]);
-			this.addSeparator();
 		}
 
 		setFloatable(false);

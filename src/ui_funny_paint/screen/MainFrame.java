@@ -32,11 +32,11 @@ public class MainFrame extends JFrame  {
 	public MainFrame() {
 	    super("Funny Paint");
 
-
 	    Container mainPane = this.getContentPane();
+		mainPane.setBackground(Color.BLUE);
 	    mainPane.setLayout(new BorderLayout());
 
-	    setPreferredSize(new Dimension(1500, 1015));
+	    setPreferredSize(new Dimension(1280, 720));
 	    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
 	    // what happens  when the window is closed
@@ -55,7 +55,7 @@ public class MainFrame extends JFrame  {
 
 	    // creating the components
 	    colorPicker = new ColorPicker(Color.BLACK);
-		colorPicker.setPreferredSize(new Dimension(600, 50));
+		colorPicker.setPreferredSize(new Dimension(300, 0));
 		toolPanel = new ToolPanel();
 		controlPanel = new ControlPanel();
 
