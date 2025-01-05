@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="xerial.sqlite.jdbc" type="repository">
+    <properties maven-id="org.xerial:sqlite-jdbc:3.43.2.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.43.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-2.0.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
