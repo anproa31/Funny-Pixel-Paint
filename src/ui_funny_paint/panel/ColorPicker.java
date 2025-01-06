@@ -136,16 +136,16 @@ public class ColorPicker extends JPanel {
 		int panelHeight = getHeight() - 300;
 		int panelWidth = getWidth();
 		if (panelWidth <= 0 && panelHeight <=0) return;
-		Dimension iconSize = new Dimension(panelHeight/14, panelHeight/14);
+		Dimension iconSize = new Dimension(panelWidth / 8, panelHeight/15);
 		System.out.println(iconSize);
+
 		for (JButton b : colorPaletteButton)
 		{
 			b.setPreferredSize(new Dimension(iconSize));
 		}
-		for (JButton b : colorPaletteButton)
-		{
-			b.setPreferredSize(new Dimension(iconSize));
-		}
+
+		swatchesPanel.revalidate();
+		swatchesPanel.repaint();
 	}
 
 	public void setController(CanvasController controller) {
