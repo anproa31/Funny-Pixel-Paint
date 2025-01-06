@@ -7,10 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import controller.canvas.CanvasController;
-import controller.tools.BrushController;
-import controller.tools.BucketController;
-import controller.tools.EraserController;
-import controller.tools.EyeDropperController;
+import controller.tools.*;
 
 @SuppressWarnings("serial")
 public class ToolPanel extends JToolBar {
@@ -81,7 +78,42 @@ public class ToolPanel extends JToolBar {
 			}
 		}
 	}
-	
+
+	public CanvasController getController() {
+		return controller;
+	}
+
+	public BrushController getBrush() {
+		return brush;
+	}
+
+	public void setBrush(BrushController brush) {
+		this.brush = brush;
+	}
+
+	public BucketController getBucket() {
+		return bucket;
+	}
+
+	public void setBucket(BucketController bucket) {
+		this.bucket = bucket;
+	}
+
+	public EyeDropperController getEyeDropper() {
+		return eyeDropper;
+	}
+
+	public void setEyeDropper(EyeDropperController eyeDropper) {
+		this.eyeDropper = eyeDropper;
+	}
+
+	public EraserController getEraser() {
+		return eraser;
+	}
+
+	public void setEraser(EraserController eraser) {
+		this.eraser = eraser;
+	}
 
 	public void setController(CanvasController controller)
 	{
