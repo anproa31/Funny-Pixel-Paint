@@ -13,6 +13,8 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import static java.lang.Integer.min;
+
 @SuppressWarnings("serial")
 public class ColorPicker extends JPanel {
 	private CanvasController controller;
@@ -110,7 +112,6 @@ public class ColorPicker extends JPanel {
 				}
 			};
 			colorButton.setBackground(swatchesColors.get(i));
-			colorButton.setPreferredSize(new Dimension(21, 21)); // Fixed size for buttons
 			colorButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			colorButton.setOpaque(true);
 			colorButton.setFocusPainted(false);
@@ -124,6 +125,7 @@ public class ColorPicker extends JPanel {
 			colorPaletteButton.add(colorButton);
 			customSwatches.add(colorButton, swatchesGbc);
 		}
+		UpdateColorButtonSize();
 
 		// Create a panel to hold the custom swatches at the top
 		swatchesPanel = new JPanel();
@@ -136,7 +138,10 @@ public class ColorPicker extends JPanel {
 		int panelHeight = getHeight() - 300;
 		int panelWidth = getWidth();
 		if (panelWidth <= 0 && panelHeight <=0) return;
-		Dimension iconSize = new Dimension(panelWidth / 8, panelHeight/15);
+
+		int size = min(panelWidth / 6, panelHeight/14);
+
+		Dimension iconSize = new Dimension(size, size);
 		System.out.println(iconSize);
 
 		for (JButton b : colorPaletteButton)
