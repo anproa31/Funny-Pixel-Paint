@@ -1,8 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
 import ui_funny_paint.screen.MainFrame;
 import model.DatabaseManager;
 
@@ -13,11 +11,13 @@ public class Main {
 
         EventQueue.invokeLater(() -> {
             DatabaseManager.connect("recent_files.db");
-            try {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            } catch (Exception ignored) {
 
+            try {
+                UIManager.setLookAndFeel(new FlatMaterialDeepOceanIJTheme());
+            } catch (UnsupportedLookAndFeelException e) {
+                throw new RuntimeException(e);
             }
+
             MainFrame frame = new MainFrame();
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
