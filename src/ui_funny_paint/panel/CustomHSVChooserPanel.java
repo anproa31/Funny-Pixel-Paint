@@ -240,7 +240,8 @@ class HueSliderUI extends BasicSliderUI {
 
         // Customize the thumb appearance
         g2d.setColor(Color.BLACK); // Thumb color
-        g2d.fillRect(thumbRect.x, thumbRect.y, thumbRect.width, thumbRect.height); // Fill the thumb
+
+        g2d.fillRect(thumbRect.x, thumbRect.y + thumbRect.y/2 + 1, 10, 10); // Fill the thumb
 
         g2d.dispose();
     }

@@ -148,9 +148,9 @@ public class PixelCanvas extends JComponent implements Serializable {
 		for (int y = 0; y < numSquaresY; y++) {
 			for (int x = 0; x < numSquaresX; x++) {
 				if ((x + y) % 2 == 0) {
-					g2d.setColor(Color.WHITE);
+					g2d.setColor(new Color(192, 192, 192));
 				} else {
-					g2d.setColor(Color.LIGHT_GRAY);
+					g2d.setColor(new Color(128, 128, 128));
 				}
 				// Scale the position and size of each square
 				g2d.fillRect(
@@ -166,9 +166,9 @@ public class PixelCanvas extends JComponent implements Serializable {
 		if (remainingX > 0) {
 			for (int y = 0; y < numSquaresY; y++) {
 				if ((numSquaresX + y) % 2 == 0) {
-					g2d.setColor(Color.WHITE);
+					g2d.setColor(new Color(192, 192, 192));
 				} else {
-					g2d.setColor(Color.LIGHT_GRAY);
+					g2d.setColor(new Color(128, 128, 128));
 				}
 				g2d.fillRect(
 						(int) (numSquaresX * squareSize * scaleFactor),
@@ -183,9 +183,9 @@ public class PixelCanvas extends JComponent implements Serializable {
 		if (remainingY > 0) {
 			for (int x = 0; x < numSquaresX; x++) {
 				if ((x + numSquaresY) % 2 == 0) {
-					g2d.setColor(Color.WHITE);
+					g2d.setColor(new Color(192, 192, 192));
 				} else {
-					g2d.setColor(Color.LIGHT_GRAY);
+					g2d.setColor(new Color(128, 128, 128));
 				}
 				g2d.fillRect(
 						(int) (x * squareSize * scaleFactor),
@@ -199,9 +199,9 @@ public class PixelCanvas extends JComponent implements Serializable {
 		// Handle the bottom-right corner if both remainingX and remainingY are greater than 0
 		if (remainingX > 0 && remainingY > 0) {
 			if ((numSquaresX + numSquaresY) % 2 == 0) {
-				g2d.setColor(Color.LIGHT_GRAY);
+				g2d.setColor(new Color(128, 128, 128));
 			} else {
-				g2d.setColor(Color.WHITE);
+				g2d.setColor(new Color(192, 192, 192));
 			}
 			g2d.fillRect(
 					(int) (numSquaresX * squareSize * scaleFactor),
