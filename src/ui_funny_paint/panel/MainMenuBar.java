@@ -16,6 +16,8 @@ import controller.canvas.CanvasController;
 import model.CanvasDatabaseObject;
 import model.DatabaseManager;
 
+import static utils.LoadIcon.loadIcon;
+
 @SuppressWarnings("serial")
 public class MainMenuBar extends JMenuBar{
 	private CanvasController controller;
@@ -27,7 +29,7 @@ public class MainMenuBar extends JMenuBar{
 		
 		// small hack to make the menu wider
 		JMenuItem openMenuItem = new JMenuItem("Open       ");
-		openMenuItem.setIcon(new ImageIcon("resources/open_s.png"));
+		openMenuItem.setIcon(loadIcon("open_s.png"));
 		openMenuItem.addActionListener(new AbstractAction() {
 
 			@Override
@@ -38,7 +40,7 @@ public class MainMenuBar extends JMenuBar{
 		});
 
 		JMenuItem newMenuItem = new JMenuItem("New");
-		newMenuItem.setIcon(new ImageIcon("resources/new_s.png"));
+		newMenuItem.setIcon(loadIcon("new_s.png"));
 		newMenuItem.addActionListener(new AbstractAction() {
 
 			@Override
@@ -50,7 +52,7 @@ public class MainMenuBar extends JMenuBar{
 
 		
 		JMenuItem saveAsMenuItem = new JMenuItem("Save As...");
-		saveAsMenuItem.setIcon(new ImageIcon("resources/save_s.png"));
+		saveAsMenuItem.setIcon(loadIcon("save_s.png"));
 		saveAsMenuItem.addActionListener(new AbstractAction() {
 
 			@Override
@@ -142,7 +144,7 @@ public class MainMenuBar extends JMenuBar{
 		
 		// small hack to make the menu wider
 		JMenuItem undoMenuItem = new JMenuItem("Undo       ", KeyEvent.VK_U);
-		undoMenuItem.setIcon(new ImageIcon("resources/undo_s.png"));
+		undoMenuItem.setIcon(loadIcon("undo_s.png"));
 		undoMenuItem.addActionListener(new AbstractAction() {
 
 			@Override
@@ -155,7 +157,7 @@ public class MainMenuBar extends JMenuBar{
 		});
 		
 		JMenuItem redoMenuItem = new JMenuItem("Redo", KeyEvent.VK_R);
-		redoMenuItem.setIcon(new ImageIcon("resources/redo_s.png"));
+		redoMenuItem.setIcon(loadIcon("redo_s.png"));
 		redoMenuItem.addActionListener(new AbstractAction() {
 
 			@Override

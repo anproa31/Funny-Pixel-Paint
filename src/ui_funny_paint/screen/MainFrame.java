@@ -73,7 +73,7 @@ public class MainFrame extends JFrame  {
 
 
         canvasPanel = new JPanel(new GridBagLayout());
-		canvasPanel.setBackground(new Color(217, 180, 180));
+		canvasPanel.setBackground(new Color(34, 32, 52));
         canvasContainer = new JScrollPane(canvasPanel);
 		canvasContainer.setBorder(new CompoundBorder(
 				BorderFactory.createEmptyBorder(10,10,50,10),

@@ -198,9 +198,7 @@ package ui_funny_paint.component.field;
 
 import controller.canvas.CanvasController;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -222,22 +220,24 @@ public class ToolSizeField extends JToolBar {
 	public ToolSizeField() {
 		this.size = 1; // Default brush size
 
-		// Create a label for "Size"
-		sizeLabel = new JLabel("Size:     ");
-		sizeLabel.setFont(new Font("Arial", Font.BOLD, 12)); // Set font for the label
-		sizeLabel.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
+//		// Create a label for "Size"
+//		sizeLabel = new JLabel("Size:     ");
+//		sizeLabel.setFont(new Font("Arial", Font.BOLD, 12)); // Set font for the label
+//		sizeLabel.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
 
 		// Create a text field for size input
-		sizeInput = new JTextField(2); // Set the width of the text field (smaller)
+		sizeInput = new JTextField(5); // Set the width of the text field (smaller)
 		sizeInput.setText(String.valueOf(this.size)); // Set initial value
 		sizeInput.setFont(new Font("Arial", Font.PLAIN, 20)); // Set font for the text field
+		sizeInput.setForeground(Color.WHITE); // Set text color to white
+		sizeInput.setBackground(new Color(34, 32, 52));
 		sizeInput.setHorizontalAlignment(SwingConstants.CENTER); // Center-align text
 		sizeInput.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Minimal padding
 
 		// Create a label for "px"
 		pxLabel = new JLabel("     px");
-		pxLabel.setFont(new Font("Arial", Font.BOLD, 12)); // Set font for the label
-		pxLabel.setForeground(sizeInput.getForeground()); // Match the text color of the text field
+		pxLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Set font for the label
+		pxLabel.setForeground(Color.WHITE); // Match the text color of the text field
 		pxLabel.setHorizontalAlignment(SwingConstants.LEFT); // Align text to the left
 
 		// Create a panel to hold the text field and the "px" label
@@ -278,7 +278,7 @@ public class ToolSizeField extends JToolBar {
 
 		// Create a panel to hold the label and input container
 		JPanel container = new JPanel(new BorderLayout());
-		container.add(sizeLabel, BorderLayout.WEST); // Add "Size" label to the left
+//		container.add(sizeLabel, BorderLayout.WEST); // Add "Size" label to the left
 		container.add(inputContainer, BorderLayout.CENTER); // Add input container to the center
 		container.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2)); // Minimal padding
 
