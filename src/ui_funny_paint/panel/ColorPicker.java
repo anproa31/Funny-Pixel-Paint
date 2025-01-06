@@ -4,9 +4,7 @@ import controller.canvas.CanvasController;
 import ui_funny_paint.component.button.ColorToggler;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -33,18 +31,38 @@ public class ColorPicker extends JPanel {
 		}
 	}
 
+//	private ArrayList<Color> ReadColorPalette() {
+//		ArrayList<Color> colorsList = new ArrayList<>();
+//        try (BufferedReader br = new BufferedReader(new FileReader("ColorPalette.txt"))) {
+//            String line = br.readLine();
+//            while (line != null) {
+//				if (line != null && !line.trim().isEmpty())
+//                	colorsList.add(Color.decode(line));
+//				line = br.readLine();
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//		return colorsList;
+//	}
+
 	private ArrayList<Color> ReadColorPalette() {
 		ArrayList<Color> colorsList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("resources/ColorPalette.txt"))) {
-            String line = br.readLine();
-            while (line != null) {
-				if (line != null && !line.trim().isEmpty())
-                	colorsList.add(Color.decode(line));
-				line = br.readLine();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("res/ColorPalette.txt")) {
+			if (inputStream == null) {
+				throw new RuntimeException("ColorPalette.txt not found in the classpath!");
+			}
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+				String line;
+				while ((line = br.readLine()) != null) {
+					if (!line.trim().isEmpty()) {
+						colorsList.add(Color.decode(line));
+					}
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to read color palette", e);
+		}
 		return colorsList;
 	}
 
