@@ -68,6 +68,7 @@ public class MainFrame extends JFrame  {
 
 
         canvasPanel = new JPanel(new GridBagLayout());
+		canvasPanel.setBackground(Color.GREEN);
         canvasContainer = new JScrollPane(canvasPanel);
 
         colorToggler = new ColorToggler(Color.BLACK, Color.WHITE);

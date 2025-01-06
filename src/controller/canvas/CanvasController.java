@@ -3,8 +3,8 @@ package controller.canvas;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import ui_funny_paint.component.button.ColorToggler;
 import ui_funny_paint.component.dialogs.NewCanvasDialog;
@@ -74,6 +74,7 @@ public class CanvasController {
 		this.canvas.setSelectedTool(this.activeTool);
 		this.canvas.setScale(this.calculateScale());
 		this.canvas.setController(this);
+
 		this.canvasPanel.add(this.canvas);
 		this.colorToggler.updateCanvas();
 		this.mainFrame.getCanvasContainer().repaint();
@@ -95,6 +96,7 @@ public class CanvasController {
 		// setting initial scale dynamically
 		this.canvas.setScale(this.calculateScale());
 		this.canvas.setController(this);
+
 		this.canvasPanel.add(this.canvas);
 		this.colorToggler.updateCanvas();
 		this.mainFrame.getCanvasContainer().repaint();

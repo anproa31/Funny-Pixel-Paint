@@ -8,6 +8,7 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import controller.canvas.CanvasController;
 import controller.canvas.RedoUndoController;
@@ -46,6 +47,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 		};
 
 		this.undoManager = new RedoUndoController();
+
 	}
 
 	/**
@@ -64,6 +66,8 @@ public class PixelCanvas extends JComponent implements Serializable {
 		this.primaryColor = new Color(0, 0, 0, 255);
 		this.secondaryColor = new Color(255, 255, 255, 0);
 		this.setPreferredSize(new Dimension(width + 2, height + 2));
+
+
 
 		addMouseWheelListener(mouseAdapter);
 	}
@@ -117,7 +121,11 @@ public class PixelCanvas extends JComponent implements Serializable {
 		g2d.drawImage(this.pixels, 1, 1, width - 2, height - 2, null);
 
 		// Draw one pixel wide border around the canvas
+		g2d.setColor(Color.BLACK);
+		g2d.setStroke(new BasicStroke(2));
 		g2d.drawRect(0, 0, width - 1, height - 1);
+
+
 		g2d.dispose();
 	}
 
