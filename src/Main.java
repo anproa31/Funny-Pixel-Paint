@@ -13,11 +13,12 @@ public class Main {
 
         EventQueue.invokeLater(() -> {
             DatabaseManager.connect("recent_files.db");
-            InputStream fontStream = Main.class.getResourceAsStream("fonts/Minecraftia-Regular.ttf");
-            Font pixelFont = null; // Set size to 12pt
+            InputStream fontStream = Main.class.getResourceAsStream("fonts/aseprite.ttf");
+            Font pixelFont = null;
+
             try {
                 assert fontStream != null;
-                pixelFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(16f);
+                pixelFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(14f);
             } catch (FontFormatException | IOException e) {
                 throw new RuntimeException(e);
             }
@@ -28,15 +29,14 @@ public class Main {
                 throw new RuntimeException(e);
             }
 
+            System.setProperty("awt.useSystemAAFontSettings", "off");
+            System.setProperty("swing.aatext", "false");
+
             UIManager.put("Label.font", pixelFont);
             UIManager.put("Button.font", pixelFont);
             UIManager.put("defaultFont", pixelFont);
             UIManager.put("TextField.font", pixelFont);
 
-            System.setProperty("awt.useSystemAAFontSettings", "off");
-            System.setProperty("swing.aatext", "false");
-
-            // Register the font
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(pixelFont);
 
