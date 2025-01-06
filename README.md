@@ -15,7 +15,7 @@
 
 ## Getting Started
 
-Clone this repo and build it with eclipse, or download the JAR from the releases.
+Clone this repo and build it with IntelliJ IDEA, or download the JAR from the releases.
 
 ### Prerequisites
 
