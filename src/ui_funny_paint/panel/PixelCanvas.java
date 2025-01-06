@@ -121,8 +121,8 @@ public class PixelCanvas extends JComponent implements Serializable {
 		g2d.drawImage(this.pixels, 1, 1, width - 2, height - 2, null);
 
 		// Draw one pixel wide border around the canvas
-		g2d.setColor(Color.BLACK);
-		g2d.setStroke(new BasicStroke(2));
+		g2d.setColor(Color.decode("#101010"));
+		g2d.setStroke(new BasicStroke(3));
 		g2d.drawRect(0, 0, width - 1, height - 1);
 
 
@@ -199,9 +199,9 @@ public class PixelCanvas extends JComponent implements Serializable {
 		// Handle the bottom-right corner if both remainingX and remainingY are greater than 0
 		if (remainingX > 0 && remainingY > 0) {
 			if ((numSquaresX + numSquaresY) % 2 == 0) {
-				g2d.setColor(Color.WHITE);
-			} else {
 				g2d.setColor(Color.LIGHT_GRAY);
+			} else {
+				g2d.setColor(Color.WHITE);
 			}
 			g2d.fillRect(
 					(int) (numSquaresX * squareSize * scaleFactor),
@@ -246,14 +246,14 @@ public class PixelCanvas extends JComponent implements Serializable {
 	public void drawBrush(int x, int y, Color c) {
 		int brushSize = controller.getSize(); // Get the brush size
 		int realX = this.getScaledCoord(x, brushSize); // Scale coordinates based on zoom level
-		int realY = this.getScaledCoord(y, 1); // Height is always 1
+		int realY = this.getScaledCoord(y, brushSize); // Height is always 1
 
 		Graphics2D g2d = this.pixels.createGraphics();
 		Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) c.getAlpha() / 255f);
 
 		g2d.setColor(c);
 		g2d.setComposite(comp);
-		g2d.fillRect(realX, realY, brushSize, 1); // Draw a rectangle with width = brushSize and height = 1
+		g2d.fillRect(realX, realY, brushSize, brushSize); // Draw a rectangle with width = brushSize and height = 1
 
 		g2d.dispose();
 	}
