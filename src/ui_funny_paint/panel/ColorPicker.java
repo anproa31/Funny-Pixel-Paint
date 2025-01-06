@@ -5,12 +5,10 @@ import ui_funny_paint.component.button.ColorToggler;
 
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -19,6 +17,10 @@ import javax.swing.event.ChangeListener;
 public class ColorPicker extends JPanel {
 	private CanvasController controller;
 	private JColorChooser colorChooser;
+	private JPanel swatchesPanel;
+	private JPanel colorBoxPanel;
+	private ArrayList<JButton> colorPaletteButton = new ArrayList<>();
+	private ToolPanel toolPanel;
 
 	private class Listener implements ChangeListener {
 		@Override
@@ -48,31 +50,55 @@ public class ColorPicker extends JPanel {
 		// Set the layout to GridBagLayout
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(5, 5, 5, 5); // Add some padding between components
 		gbc.fill = GridBagConstraints.BOTH; // Make components fill their space
 
-		// Create the main color chooser
+		CreateColorWheelPanel(initialColor);
+		CreateSwatches();
+
+		// Add the swatches panel to the top of the GridBagLayout
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1;
+		this.add(swatchesPanel, gbc);
+
+		// Add the tabbed pane to the bottom of the GridBagLayout
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.1;
+		gbc.fill = GridBagConstraints.BOTH;
+		this.add(colorBoxPanel, gbc);
+
+		// Add a change listener to the color chooser
+		colorChooser.getSelectionModel().addChangeListener(new Listener());
+
+	}
+
+	private void CreateColorWheelPanel(Color initialColor)
+	{
 		colorChooser = new JColorChooser(initialColor);
-		colorChooser.setPreviewPanel(new JPanel()); // Remove the preview panel
-		// Remove unwanted panels (e.g., CMYK)
-		for (AbstractColorChooserPanel p : colorChooser.getChooserPanels()) {
-			String displayName = p.getDisplayName();
-			switch (displayName)
-			{
-				case "CMYK":
-					colorChooser.removeChooserPanel(p);
-					break;
-			}
+		colorBoxPanel = new JPanel();
+
+		colorChooser.setPreviewPanel(new JPanel());
+
+		AbstractColorChooserPanel[] panels = colorChooser.getChooserPanels();
+		for (AbstractColorChooserPanel panel : panels) {
+			colorChooser.removeChooserPanel(panel);
 		}
 
-		// Create a custom swatches panel
+		colorChooser.addChooserPanel(new CustomHSVChooserPanel());
+		colorBoxPanel.add(colorChooser);
+	}
+
+	private void CreateSwatches()
+	{
 		JPanel customSwatches = new JPanel();
 		customSwatches.setLayout(new GridBagLayout()); // Use GridBagLayout for more control
 		GridBagConstraints swatchesGbc = new GridBagConstraints();
 		swatchesGbc.insets = new Insets(1, 1, 1, 1); // Add some padding between buttons
 
 		ArrayList<Color> swatchesColors = ReadColorPalette();
-
 		int columns = 5; // Number of columns in the grid
 		for (int i = 0; i < swatchesColors.size(); i++) {
 			JButton colorButton = new JButton() {
@@ -84,7 +110,7 @@ public class ColorPicker extends JPanel {
 				}
 			};
 			colorButton.setBackground(swatchesColors.get(i));
-			colorButton.setPreferredSize(new Dimension(40, 40)); // Fixed size for buttons
+			colorButton.setPreferredSize(new Dimension(21, 21)); // Fixed size for buttons
 			colorButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			colorButton.setOpaque(true);
 			colorButton.setFocusPainted(false);
@@ -95,37 +121,31 @@ public class ColorPicker extends JPanel {
 			// Add the button to the grid
 			swatchesGbc.gridx = i % columns; // Column index
 			swatchesGbc.gridy = i / columns; // Row index
+			colorPaletteButton.add(colorButton);
 			customSwatches.add(colorButton, swatchesGbc);
 		}
 
 		// Create a panel to hold the custom swatches at the top
-		JPanel swatchesPanel = new JPanel();
+		swatchesPanel = new JPanel();
 		swatchesPanel.setLayout(new BorderLayout());
 		swatchesPanel.add(customSwatches);
+	}
 
-		// Create a tabbed pane for the RGB, HSV, and HSL tabs
-		JTabbedPane tabbedPane = new JTabbedPane();
-		for (AbstractColorChooserPanel p : colorChooser.getChooserPanels()) {
-			if (!p.getDisplayName().equals("Swatches")) {
-				tabbedPane.addTab(p.getDisplayName(), p);
-			}
+	public void UpdateColorButtonSize()
+	{
+		int panelHeight = getHeight() - 300;
+		int panelWidth = getWidth();
+		if (panelWidth <= 0 && panelHeight <=0) return;
+		Dimension iconSize = new Dimension(panelHeight/14, panelHeight/14);
+		System.out.println(iconSize);
+		for (JButton b : colorPaletteButton)
+		{
+			b.setPreferredSize(new Dimension(iconSize));
 		}
-
-		// Add the swatches panel to the top of the GridBagLayout
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.9;
-		this.add(swatchesPanel, gbc);
-
-		// Add the tabbed pane to the bottom of the GridBagLayout
-		gbc.gridy = 1;
-		gbc.weighty = 0.1;
-		gbc.fill = GridBagConstraints.BOTH;
-		this.add(tabbedPane, gbc);
-
-		// Add a change listener to the color chooser
-		colorChooser.getSelectionModel().addChangeListener(new Listener());
+		for (JButton b : colorPaletteButton)
+		{
+			b.setPreferredSize(new Dimension(iconSize));
+		}
 	}
 
 	public void setController(CanvasController controller) {
