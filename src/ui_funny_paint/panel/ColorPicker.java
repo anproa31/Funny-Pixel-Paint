@@ -142,7 +142,6 @@ public class ColorPicker extends JPanel {
 		int size = min(panelWidth / 6, panelHeight/14);
 
 		Dimension iconSize = new Dimension(size, size);
-		System.out.println(iconSize);
 
 		for (JButton b : colorPaletteButton)
 		{

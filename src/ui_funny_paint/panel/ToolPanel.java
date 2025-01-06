@@ -43,7 +43,6 @@ public class ToolPanel extends JToolBar {
 		JButton[] buttons = new JButton[buttonLabels.length];
 		for (int i = 0; i < buttons.length; i++) {
 			buttons[i] = new JButton(buttonIcons[i]);
-			buttons[i].setSize(4000, 4000);
 			buttons[i].setActionCommand(buttonLabels[i]);
 			buttons[i].setToolTipText(buttonLabels[i]);
 			buttons[i].addActionListener(listener);
