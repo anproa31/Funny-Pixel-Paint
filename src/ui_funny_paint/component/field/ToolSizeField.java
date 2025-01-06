@@ -218,17 +218,12 @@ public class ToolSizeField extends JToolBar {
 	private int size;
 
 	public ToolSizeField() {
-		this.size = 1; // Default brush size
-
-//		// Create a label for "Size"
-//		sizeLabel = new JLabel("Size:     ");
-//		sizeLabel.setFont(new Font("Arial", Font.BOLD, 12)); // Set font for the label
-//		sizeLabel.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
+		this.size = 1;
 
 		// Create a text field for size input
 		sizeInput = new JTextField(5); // Set the width of the text field (smaller)
 		sizeInput.setText(String.valueOf(this.size)); // Set initial value
-		sizeInput.setFont(new Font("Arial", Font.PLAIN, 20)); // Set font for the text field
+//		sizeInput.setFont(new Font("Arial", Font.PLAIN, 20)); // Set font for the text field
 		sizeInput.setForeground(Color.WHITE); // Set text color to white
 		sizeInput.setBackground(new Color(34, 32, 52));
 		sizeInput.setHorizontalAlignment(SwingConstants.CENTER); // Center-align text
@@ -236,7 +231,7 @@ public class ToolSizeField extends JToolBar {
 
 		// Create a label for "px"
 		pxLabel = new JLabel("     px");
-		pxLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Set font for the label
+//		pxLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Set font for the label
 		pxLabel.setForeground(Color.WHITE); // Match the text color of the text field
 		pxLabel.setHorizontalAlignment(SwingConstants.LEFT); // Align text to the left
 
