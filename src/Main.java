@@ -1,6 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import ui_funny_paint.screen.MainFrame;
 import model.DatabaseManager;
 
@@ -8,10 +10,11 @@ import model.DatabaseManager;
 public class Main {
 
     public static void main(String[] args) {
+
         EventQueue.invokeLater(() -> {
             DatabaseManager.connect("recent_files.db");
             try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (Exception ignored) {
 
             }

@@ -41,21 +41,21 @@ public class ColorToggler extends JToolBar implements ActionListener {
 		// select primary color by default
 		this.primaryColorPicked = true;
 		
-		JLabel primaryLabel = new JLabel("Primary");
-		primaryLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		JLabel secondaryLabel = new JLabel("Secondary");
-		secondaryLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+//		JLabel primaryLabel = new JLabel("Primary");
+//		primaryLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+//		JLabel secondaryLabel = new JLabel("Secondary");
+//		secondaryLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
 
 		this.primaryButtonContainer = new JPanel();
 		this.primaryButtonContainer.setLayout(new BoxLayout(primaryButtonContainer, BoxLayout.Y_AXIS));
 		this.primaryButtonContainer.add(primaryColorButton);
-		this.primaryButtonContainer.add(primaryLabel);
+//		this.primaryButtonContainer.add(primaryLabel);
 		
 		this.secondaryButtonContainer = new JPanel();
 		this.secondaryButtonContainer.setLayout(new BoxLayout(secondaryButtonContainer, BoxLayout.Y_AXIS));
 		this.secondaryButtonContainer.add(secondaryColorButton);
-		this.secondaryButtonContainer.add(secondaryLabel);
+//		this.secondaryButtonContainer.add(secondaryLabel);
 
 		
 		add(primaryButtonContainer);

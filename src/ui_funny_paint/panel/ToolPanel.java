@@ -9,6 +9,8 @@ import javax.swing.*;
 import controller.canvas.CanvasController;
 import controller.tools.*;
 
+import static utils.LoadIcon.loadIcon;
+
 @SuppressWarnings("serial")
 public class ToolPanel extends JToolBar {
 	private CanvasController controller;
@@ -32,13 +34,21 @@ public class ToolPanel extends JToolBar {
 		this.eraser = new EraserController();
 		
 		
-		String[] buttonLabels = { "Brush", "Eraser", "EyeDropper", "Bucket"};
+//		String[] buttonLabels = { "Brush", "Eraser", "EyeDropper", "Bucket"};
+//		ImageIcon[] buttonIcons = {
+//				new ImageIcon("resources/paintbrush.png"),
+//				new ImageIcon("resources/eraser.png"),
+//				new ImageIcon("resources/eyedropper.png"),
+//				new ImageIcon("resources/bucket.png")
+//				};
+
+		String[] buttonLabels = {"Brush", "Eraser", "EyeDropper", "Bucket"};
 		ImageIcon[] buttonIcons = {
-				new ImageIcon("resources/paintbrush.png"),
-				new ImageIcon("resources/eraser.png"),
-				new ImageIcon("resources/eyedropper.png"),
-				new ImageIcon("resources/bucket.png")
-				};
+				loadIcon("paintbrush.png"),
+				loadIcon("eraser.png"),
+				loadIcon("eyedropper.png"),
+				loadIcon("bucket.png"),
+		};
 		
 		JButton[] buttons = new JButton[buttonLabels.length];
 		for (int i = 0; i < buttons.length; i++) {
@@ -77,6 +87,7 @@ public class ToolPanel extends JToolBar {
 			}
 		}
 	}
+
 
 	public CanvasController getController() {
 		return controller;

@@ -16,6 +16,9 @@ import ui_funny_paint.component.field.ToolSizeField;
 import utils.GlobalKeyBinder;
 
 import java.awt.*;
+import java.util.Objects;
+
+import static utils.LoadIcon.loadIcon;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame  {
@@ -33,8 +36,8 @@ public class MainFrame extends JFrame  {
 	    super("Funny Paint");
 
 	    Container mainPane = this.getContentPane();
-		mainPane.setBackground(Color.BLUE);
 	    mainPane.setLayout(new BorderLayout());
+
 
 	    setPreferredSize(new Dimension(1280, 720));
 	    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -67,8 +70,9 @@ public class MainFrame extends JFrame  {
 		controlPanel = new ControlPanel();
 
 
+
         canvasPanel = new JPanel(new GridBagLayout());
-		canvasPanel.setBackground(new Color(34, 32, 52));
+		canvasPanel.setBackground(new Color(217, 180, 180));
         canvasContainer = new JScrollPane(canvasPanel);
 		canvasContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 50, 10));
 
@@ -101,8 +105,8 @@ public class MainFrame extends JFrame  {
         mainPane.add(controlPanelWrapper, BorderLayout.NORTH);
 
         // setting the icon
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        setIconImage(tk.getImage("resources/logo.png"));
+//        Toolkit tk = Toolkit.getDefaultToolkit();
+        setIconImage(Objects.requireNonNull(loadIcon("logo.png")).getImage());
 
 	    pack();
 	}
