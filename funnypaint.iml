@@ -26,5 +26,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="sqlite-jdbc-3.47.1.0" level="project" />
+    <orderEntry type="library" name="formdev.flatlaf" level="project" />
+    <orderEntry type="library" name="formdev.flatlaf.intellij.themes" level="project" />
   </component>
 </module>

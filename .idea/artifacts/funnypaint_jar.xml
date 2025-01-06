@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="funnypaint:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/funnypaint_jar</output-path>
+    <root id="archive" name="funnypaint.jar">
+      <element id="module-output" name="funnypaint" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/sqlite-jdbc-3.47.1.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="sqlite.jar" module-name="funnypaint" />
+    </root>
+  </artifact>
+</component>

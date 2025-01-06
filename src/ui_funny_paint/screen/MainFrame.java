@@ -3,6 +3,7 @@ package ui_funny_paint.screen;
 
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 
 import controller.canvas.CanvasController;
@@ -33,7 +34,6 @@ public class MainFrame extends JFrame  {
 	    super("Funny Paint");
 
 	    Container mainPane = this.getContentPane();
-		mainPane.setBackground(Color.BLUE);
 	    mainPane.setLayout(new BorderLayout());
 
 	    setPreferredSize(new Dimension(1280, 720));
@@ -70,7 +70,10 @@ public class MainFrame extends JFrame  {
         canvasPanel = new JPanel(new GridBagLayout());
 		canvasPanel.setBackground(new Color(34, 32, 52));
         canvasContainer = new JScrollPane(canvasPanel);
-		canvasContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 50, 10));
+		canvasContainer.setBorder(new CompoundBorder(
+				BorderFactory.createEmptyBorder(10,10,50,10),
+				BorderFactory.createLineBorder(Color.BLACK, 5)
+		));
 
         colorToggler = new ColorToggler(Color.BLACK, Color.WHITE);
         controlPanel.add(colorToggler);
