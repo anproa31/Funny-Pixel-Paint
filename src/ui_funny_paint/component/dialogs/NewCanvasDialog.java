@@ -23,8 +23,8 @@ public class NewCanvasDialog extends JDialog {
 	public final static int APPROVE_OPTION = 1;
 	public final static int CANCEL_OPTION = 0;
 	
-	private static int defaultWidth = 10;
-	private static int defaultHeight = 10;
+	private static int defaultWidth = 32;
+	private static int defaultHeight = 32;
 	private static Color defaultFillColor = new Color(0, 0, 0, 0); // transparent empty canvas
 	
 	private int width;
