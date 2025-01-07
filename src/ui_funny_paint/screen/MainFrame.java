@@ -31,6 +31,7 @@ public class MainFrame extends JFrame  {
 	private ToolSizeField toolSizeField;
 
 	private JScrollPane canvasContainer;
+
 	private CanvasController controller;
 
 	public MainFrame() {
@@ -142,5 +143,8 @@ public class MainFrame extends JFrame  {
 		return this.colorToggler;
 	}
 
+	public CanvasController getController() {
+		return controller;
+	}
 
 }

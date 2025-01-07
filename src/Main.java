@@ -4,6 +4,7 @@ import java.io.InputStream;
 import javax.swing.*;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicIJTheme;
+import controller.tools.BrushController;
 import ui_funny_paint.screen.MainFrame;
 import model.DatabaseManager;
 
@@ -45,6 +46,7 @@ public class Main {
             MainFrame frame = new MainFrame();
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
+			frame.getController().setCanvasTool(new BrushController());
         });
     }
 }
