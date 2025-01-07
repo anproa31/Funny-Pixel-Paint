@@ -7,6 +7,8 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -30,21 +32,6 @@ public class ColorPicker extends JPanel {
 			colorToggler.setColor(ColorPicker.this.colorChooser.getColor());
 		}
 	}
-
-//	private ArrayList<Color> ReadColorPalette() {
-//		ArrayList<Color> colorsList = new ArrayList<>();
-//        try (BufferedReader br = new BufferedReader(new FileReader("ColorPalette.txt"))) {
-//            String line = br.readLine();
-//            while (line != null) {
-//				if (line != null && !line.trim().isEmpty())
-//                	colorsList.add(Color.decode(line));
-//				line = br.readLine();
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//		return colorsList;
-//	}
 
 	private ArrayList<Color> ReadColorPalette() {
 		ArrayList<Color> colorsList = new ArrayList<>();
@@ -148,16 +135,17 @@ public class ColorPicker extends JPanel {
 		// Create a panel to hold the custom swatches at the top
 		swatchesPanel = new JPanel();
 		swatchesPanel.setLayout(new BorderLayout());
-		swatchesPanel.add(customSwatches);
+		swatchesPanel.add(customSwatches, BorderLayout.CENTER);
+		swatchesPanel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
 	}
 
 	public void UpdateColorButtonSize()
 	{
-		int panelHeight = getHeight() - 300;
+		int panelHeight = getHeight() - 300 - 25;
 		int panelWidth = getWidth();
 		if (panelWidth <= 0 && panelHeight <=0) return;
 
-		int size = min(panelWidth / 6, panelHeight/14);
+		int size = min(panelWidth / 5 - 5, panelHeight / 13 - 1);
 
 		Dimension iconSize = new Dimension(size, size);
 

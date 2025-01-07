@@ -66,8 +66,9 @@ public class MainFrame extends JFrame  {
 
 	    // creating the components
 	    colorPicker = new ColorPicker(Color.BLACK);
-		colorPicker.setPreferredSize(new Dimension(300, 0));
+		colorPicker.setPreferredSize(new Dimension(200, 0));
 		toolPanel = new ToolPanel();
+		toolPanel.setBorder(BorderFactory.createEmptyBorder(10,0,0,10));
 		controlPanel = new ControlPanel();
 
 
@@ -76,7 +77,7 @@ public class MainFrame extends JFrame  {
 		canvasPanel.setBackground(new Color(34, 32, 52));
         canvasContainer = new JScrollPane(canvasPanel);
 		canvasContainer.setBorder(new CompoundBorder(
-				BorderFactory.createEmptyBorder(10,10,50,10),
+				BorderFactory.createEmptyBorder(0,0,25,0),
 				BorderFactory.createLineBorder(Color.BLACK, 5)
 		));
 
