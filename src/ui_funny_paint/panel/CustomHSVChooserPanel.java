@@ -84,10 +84,49 @@ public class CustomHSVChooserPanel extends AbstractColorChooserPanel {
             updateColorBox();
         });
 
-        colorPreviewPanel = new JPanel();
+        colorPreviewPanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+                Color bgColor = getBackground();
+                String hexColor = String.format("#%02X%02X%02X",
+                        bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+
+                // Calculate brightness to determine text color
+                double brightness = (bgColor.getRed() * 0.299 +
+                        bgColor.getGreen() * 0.587 + bgColor.getBlue() * 0.114) / 255;
+                g2d.setColor(brightness < 0.5 ? Color.WHITE : Color.BLACK);
+
+                FontMetrics fm = g2d.getFontMetrics();
+                int x = (getWidth() - fm.stringWidth(hexColor)) / 2;
+                int y = (getHeight() + fm.getAscent()) / 2;
+                g2d.drawString(hexColor, x, y);
+            }
+        };
+
         colorPreviewPanel.setPreferredSize(new Dimension(150, 30));
         colorPreviewPanel.setBackground(Color.WHITE);
         colorPreviewPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+        colorPreviewPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Color initialColor = colorPreviewPanel.getBackground();
+                Color selectedColor = JColorChooser.showDialog(
+                        SwingUtilities.getWindowAncestor(colorPreviewPanel),
+                        "Choose Color",
+                        initialColor
+                );
+
+                if (selectedColor != null) {
+                    getColorSelectionModel().setSelectedColor(selectedColor);
+                    updateColorPreview(selectedColor);
+                }
+            }
+        });
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(colorBoxPanel, BorderLayout.CENTER);
