@@ -90,11 +90,11 @@ public class NewCanvasDialog extends JDialog {
 		});
 		
 		JPanel widthPanel = new JPanel();
-		widthPanel.add(new JLabel("width:"));
+		widthPanel.add(new JLabel("Width:"));
 		widthPanel.add(widthInput);
 		
 		JPanel heightPanel = new JPanel();
-		heightPanel.add(new JLabel("height:"));
+		heightPanel.add(new JLabel("Height:"));
 		heightPanel.add(heightInput);
 		
 		JPanel buttonPanel = new JPanel();

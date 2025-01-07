@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.*;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicIJTheme;
 import ui_funny_paint.screen.MainFrame;
 import model.DatabaseManager;
 
