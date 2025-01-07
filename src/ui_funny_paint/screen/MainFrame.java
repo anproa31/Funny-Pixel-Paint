@@ -68,7 +68,7 @@ public class MainFrame extends JFrame  {
 	    colorPicker = new ColorPicker(Color.BLACK);
 		colorPicker.setPreferredSize(new Dimension(200, 0));
 		toolPanel = new ToolPanel();
-		toolPanel.setBorder(BorderFactory.createEmptyBorder(10,0,0,10));
+		toolPanel.setBorder(BorderFactory.createEmptyBorder(10,10,0,10));
 		controlPanel = new ControlPanel();
 
 
