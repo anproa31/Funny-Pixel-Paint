@@ -126,10 +126,8 @@ public class CanvasController {
 	
 	public void setCanvasTool(Tool t)
 	{
-		if(this.canvas == null)
-			return;
 		this.activeTool = t;
-		this.canvas.setSelectedTool(t);
+		if(this.canvas != null) this.canvas.setSelectedTool(t);
 	}
 	
 	

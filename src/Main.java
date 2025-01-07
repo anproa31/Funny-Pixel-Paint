@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.*;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
+import controller.tools.BrushController;
 import ui_funny_paint.screen.MainFrame;
 import model.DatabaseManager;
 
@@ -36,7 +37,7 @@ public class Main {
             timer.setRepeats(false);
             timer.start();
         });
-    }
+      }
 
     private static void initializeApplication() {
         DatabaseManager.connect("recent_files.db");
@@ -66,5 +67,10 @@ public class Main {
 
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         ge.registerFont(pixelFont);
+
+        MainFrame frame = new MainFrame();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.getController().setCanvasTool(new BrushController());
     }
 }
