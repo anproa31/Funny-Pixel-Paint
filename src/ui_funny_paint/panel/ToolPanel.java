@@ -56,7 +56,7 @@ public class ToolPanel extends JToolBar {
 			buttons[i].setActionCommand(buttonLabels[i]);
 			buttons[i].setToolTipText(buttonLabels[i]);
 			buttons[i].addActionListener(listener);
-			buttons[i].setMargin(new Insets(5,15,5,15));
+			buttons[i].setMargin(new Insets(5,10,5,10));
 
 			this.add(buttons[i]);
 		}
