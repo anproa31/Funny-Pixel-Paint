@@ -29,9 +29,6 @@ public class Main {
             Timer timer = new Timer(5000, e -> {
                 splash.dispose();
                 initializeApplication();
-                MainFrame frame = new MainFrame();
-                frame.setVisible(true);
-                frame.setLocationRelativeTo(null);
             });
 
             timer.setRepeats(false);
