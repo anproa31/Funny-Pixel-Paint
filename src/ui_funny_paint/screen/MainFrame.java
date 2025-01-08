@@ -34,8 +34,10 @@ public class MainFrame extends JFrame  {
 
 	private CanvasController controller;
 
+	public static MainFrame instance;
 	public MainFrame() {
 	    super("Funny Paint");
+		instance = this;
 
 	    Container mainPane = this.getContentPane();
 	    mainPane.setLayout(new BorderLayout());
@@ -115,6 +117,15 @@ public class MainFrame extends JFrame  {
         setIconImage(Objects.requireNonNull(loadIcon("logo.png")).getImage());
 
 	    pack();
+	}
+
+	public static MainFrame getInstance()
+	{
+		if (instance == null)
+		{
+			instance = new MainFrame();
+		}
+		return instance;
 	}
 
 	public ColorPicker getColorPicker() {
