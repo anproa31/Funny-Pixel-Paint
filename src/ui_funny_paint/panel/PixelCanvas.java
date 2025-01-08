@@ -194,19 +194,23 @@ public class PixelCanvas extends JComponent implements Serializable {
 		JPanel canvasPanel = this.controller.getCanvasPanel();
 		double oldScale = this.scaleFactor;
 
-		double baseScale = controller.calculateScale();
-		double currentPercent = (scaleFactor / baseScale) * 100;
+		// Calculate the new scale factor by rounding to the nearest integer
+		double zoomFactor = scale < 0 ? 1 : -1; // Determine the direction of zoom
+		double newScale = this.scaleFactor + zoomFactor;
 
-		// Use smaller zoom factors
-		double zoomFactor = scale < 0 ? 1.1 : 0.9;
-		int newPercent = (int)Math.round(currentPercent * zoomFactor);
-		double newScale = (newPercent / 100.0) * baseScale;
+		// Ensure the scale factor is at least 1 (or any minimum value you prefer)
+		newScale = Math.max(1, newScale);
 
-		if (newScale / baseScale < 0.1 || newScale / baseScale > 10) return;
+		// Snap to the nearest integer
+		newScale = Math.round(newScale);
 
+		// Update the scale factor
 		this.scaleFactor = newScale;
+
+		// Calculate the scale change ratio
 		double scaleChange = this.scaleFactor / oldScale;
 
+		// Adjust the visible rectangle to keep the zoom centered
 		Rectangle visibleRect = canvasPanel.getVisibleRect();
 		double centerX = visibleRect.getX() + visibleRect.getWidth() / 2;
 		double centerY = visibleRect.getY() + visibleRect.getHeight() / 2;
@@ -220,6 +224,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 		visibleRect.setRect(scrollX, scrollY, visibleRect.getWidth(), visibleRect.getHeight());
 		canvasPanel.scrollRectToVisible(visibleRect);
 
+		// Repaint the canvas to reflect the new zoom level
 		repaint();
 	}
 
