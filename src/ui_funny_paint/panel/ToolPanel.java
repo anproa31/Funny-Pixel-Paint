@@ -65,22 +65,18 @@ public class ToolPanel extends JToolBar {
 				
 			case "Bucket":
 				controller.setCanvasTool(bucket);
-				setCustomCursor(MainFrame.getInstance(), bucketCursor);
 				break;
 				
 			case "Brush":
 				controller.setCanvasTool(brush);
-				setCustomCursor(MainFrame.getInstance(), brushCursor);
 				break;
 				
 			case "EyeDropper":
 				controller.setCanvasTool(eyeDropper);
-				setCustomCursor(MainFrame.getInstance(), eyedropperCursor);
 				break;
 				
 			case "Eraser":
 				controller.setCanvasTool(eraser);
-				setCustomCursor(MainFrame.getInstance(), eraserCursor);
 				break;
 			}
 		}

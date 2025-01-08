@@ -128,7 +128,7 @@ public class CanvasController {
 	public void setCanvasTool(Tool t)
 	{
 		this.activeTool = t;
-		CursorManager.setCustomCursor(MainFrame.getInstance(),t.getCursor());
+		CursorManager.setCustomCursor(MainFrame.getInstance().getCanvasContainer(), t.getCursor());
 		if(this.canvas != null) this.canvas.setSelectedTool(t);
 	}
 	
