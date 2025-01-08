@@ -1,161 +1,159 @@
 package ui_funny_paint.screen;
 
 
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
-
 import controller.canvas.CanvasController;
 import model.DatabaseManager;
 import ui_funny_paint.component.button.ColorToggler;
+import ui_funny_paint.component.field.ToolSizeField;
 import ui_funny_paint.panel.ColorPicker;
 import ui_funny_paint.panel.ControlPanel;
 import ui_funny_paint.panel.MainMenuBar;
 import ui_funny_paint.panel.ToolPanel;
-import ui_funny_paint.component.field.ToolSizeField;
 import utils.GlobalKeyBinder;
 
+import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Objects;
 
 import static utils.LoadIcon.loadIcon;
 
-@SuppressWarnings("serial")
-public class MainFrame extends JFrame  {
-	private ColorPicker colorPicker;
-	private ToolPanel toolPanel;
-	private JPanel canvasPanel;
-	private ControlPanel controlPanel;
-	private ColorToggler colorToggler;
-	private ToolSizeField toolSizeField;
+public class MainFrame extends JFrame {
+    private ColorPicker colorPicker;
+    private ToolPanel toolPanel;
+    private JPanel canvasPanel;
+    private ControlPanel controlPanel;
+    private ColorToggler colorToggler;
+    private JScrollPane canvasContainer;
+    private CanvasController controller;
+    public static MainFrame instance;
 
-	private JScrollPane canvasContainer;
+    public MainFrame() {
+        super("Funny Paint");
+        instance = this;
 
-	private CanvasController controller;
+        setupFrame(new Dimension(1280, 720));
+        setupEventHandlers();
+        initializeComponents();
+        setupLayout();
+        pack();
+    }
 
-	public static MainFrame instance;
-	public MainFrame() {
-	    super("Funny Paint");
-		instance = this;
+    private void setupFrame(Dimension resolution) {
+        setPreferredSize(resolution);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setIconImage(Objects.requireNonNull(loadIcon("logo.png")).getImage());
+    }
 
-	    Container mainPane = this.getContentPane();
-	    mainPane.setLayout(new BorderLayout());
+    private void setupEventHandlers() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                handleWindowClosing();
+            }
+        });
 
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                colorPicker.updateColorButtonSize();
+            }
+        });
+    }
 
-	    setPreferredSize(new Dimension(1280, 720));
-	    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+    private void handleWindowClosing() {
+        boolean closeWindow = controller.closeCanvas();
+        if (!closeWindow) return;
 
-	    // what happens  when the window is closed
-	    addWindowListener(new WindowAdapter() {
-	        @Override
-	        public void windowClosing(WindowEvent e) {
-	        	boolean closeWindow = MainFrame.this.controller.closeCanvas();
-	        	if(!closeWindow)
-	        		return;
+        DatabaseManager.disconnect();
+        setVisible(false);
+        dispose();
+    }
 
-	        	DatabaseManager.disconnect();
-	        	MainFrame.this.setVisible(false);
-	        	MainFrame.this.dispose();
-	        }
-	    });
+    private void initializeComponents() {
+        colorPicker = new ColorPicker(Color.BLACK);
+        colorPicker.setPreferredSize(new Dimension(200, 0));
 
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				colorPicker.UpdateColorButtonSize();
-			}
-		});
+        toolPanel = new ToolPanel();
+        toolPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 
-	    // creating the components
-	    colorPicker = new ColorPicker(Color.BLACK);
-		colorPicker.setPreferredSize(new Dimension(200, 0));
-		toolPanel = new ToolPanel();
-		toolPanel.setBorder(BorderFactory.createEmptyBorder(10,10,0,10));
-		controlPanel = new ControlPanel();
-
-
+        controlPanel = new ControlPanel();
 
         canvasPanel = new JPanel(new GridBagLayout());
-		canvasPanel.setBackground(new Color(34, 32, 52));
+        canvasPanel.setBackground(new Color(34, 32, 52));
+
         canvasContainer = new JScrollPane(canvasPanel);
-		canvasContainer.setBorder(new CompoundBorder(
-				BorderFactory.createEmptyBorder(0,0,25,0),
-				BorderFactory.createLineBorder(Color.BLACK, 5)
-		));
+        canvasContainer.setBorder(new CompoundBorder(
+                BorderFactory.createEmptyBorder(0, 0, 25, 0),
+                BorderFactory.createLineBorder(Color.BLACK, 5)
+        ));
 
         colorToggler = new ColorToggler(Color.BLACK, Color.WHITE);
         controlPanel.add(colorToggler);
-        // creating Main controller
+
         controller = new CanvasController(this);
 
-        // creating a global key binder
         GlobalKeyBinder globalKeyBinder = new GlobalKeyBinder(this.getRootPane());
         globalKeyBinder.setController(controller);
 
-        toolSizeField = new ToolSizeField();
-        controlPanel.add(toolSizeField);
+        ToolSizeField toolSizeField = new ToolSizeField();
         toolSizeField.setController(controller);
-		JPanel controlPanelWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		controlPanelWrapper.add(controlPanel);
+        controlPanel.add(toolSizeField);
+    }
 
+    private void setupLayout() {
+        Container mainPane = getContentPane();
+        mainPane.setLayout(new BorderLayout());
 
-
-
-		// creating the menu bar
-        MainMenuBar menuBar = new MainMenuBar(controller);
-        this.setJMenuBar(menuBar);
-
+        JPanel controlPanelWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        controlPanelWrapper.add(controlPanel);
 
         mainPane.add(canvasContainer, BorderLayout.CENTER);
         mainPane.add(colorPicker, BorderLayout.WEST);
         mainPane.add(toolPanel, BorderLayout.EAST);
         mainPane.add(controlPanelWrapper, BorderLayout.NORTH);
 
-        // setting the icon
-//        Toolkit tk = Toolkit.getDefaultToolkit();
-        setIconImage(Objects.requireNonNull(loadIcon("logo.png")).getImage());
+        setJMenuBar(new MainMenuBar(controller));
+    }
 
-	    pack();
-	}
+    public static MainFrame getInstance() {
+        if (instance == null) {
+            instance = new MainFrame();
+        }
+        return instance;
+    }
 
-	public static MainFrame getInstance()
-	{
-		if (instance == null)
-		{
-			instance = new MainFrame();
-		}
-		return instance;
-	}
+    public ColorPicker getColorPicker() {
+        return colorPicker;
+    }
 
-	public ColorPicker getColorPicker() {
-		return colorPicker;
-	}
+    public ToolPanel getTools() {
+        return toolPanel;
+    }
 
-	public ToolPanel getTools() {
-		return toolPanel;
-	}
+    public JPanel getCanvasPanel() {
+        return canvasPanel;
+    }
 
-	public JPanel getCanvasPanel() {
-		return canvasPanel;
-	}
+    public JScrollPane getCanvasContainer() {
+        return canvasContainer;
+    }
 
-	public JScrollPane getCanvasContainer() {
-		return canvasContainer;
-	}
+    public ControlPanel getControlPanel() {
+        return this.controlPanel;
+    }
 
-	public ControlPanel getControlPanel()
-	{
-		return this.controlPanel;
-	}
+    public ColorToggler getColorToggler() {
 
-	public ColorToggler getColorToggler() {
+        return this.colorToggler;
+    }
 
-		return this.colorToggler;
-	}
-
-	public CanvasController getController() {
-		return controller;
-	}
+    public CanvasController getController() {
+        return controller;
+    }
 
 }
