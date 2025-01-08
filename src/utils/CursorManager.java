@@ -20,7 +20,7 @@ public class CursorManager {
 
 
     public static void setCustomCursor(Component component, Cursor cursor) {
-        if (cursor == null) {
+        if (component == null || cursor == null) {
             return;
         }
         component.setCursor(cursor);

@@ -67,6 +67,8 @@ public class Main {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.getController().setCanvasTool(new BrushController(brushCursor));
+
+        setCustomCursor(frame, defaultCursor);
     }
 
 }
