@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import javax.swing.*;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
 import controller.tools.BrushController;
@@ -12,21 +13,16 @@ public class Main {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             JWindow splash = new JWindow();
-            ImageIcon originalIcon = new ImageIcon(Main.class.getResource("res/splash.gif"));
-            Image originalImage = originalIcon.getImage();
 
-            // Scale the image 5 times its original size
-            int newWidth = originalIcon.getIconWidth() * 5;
-            int newHeight = originalIcon.getIconHeight() * 5;
-            Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST);
+            Image logoImage = new ImageIcon(Objects.requireNonNull(Main.class.getResource("res/splash.gif"))).getImage();
+            JLabel imageLabel = new JLabel(new ImageIcon(logoImage));
 
-            JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
             splash.getContentPane().add(imageLabel);
             splash.pack();
             splash.setLocationRelativeTo(null);
             splash.setVisible(true);
 
-            Timer timer = new Timer(5000, e -> {
+            Timer timer = new Timer(3000, e -> {
                 splash.dispose();
                 initializeApplication();
             });
