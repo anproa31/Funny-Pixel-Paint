@@ -7,26 +7,26 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 
 
+
 public abstract class Tool extends MouseAdapter {
 	private Cursor cursor;
-	
-	public Tool()
+
+	public Tool() {
+	}
+
+	public Tool(Cursor cursor)
 	{
-		super();
+		this();
+		setCursor(cursor);
 	}
-	
-	public Tool(ImageIcon icon) {
-		super();
-		this.cursor = Toolkit.getDefaultToolkit().createCustomCursor(icon.getImage() , new Point(0, 0), "");
-	}
-	
-	public void setCursor(ImageIcon icon)
-	{
-		this.cursor = Toolkit.getDefaultToolkit().createCustomCursor(icon.getImage() , new Point(0, 0), "");
-	}
-	
+
 	public Cursor getCursor()
 	{
 		return this.cursor;
 	}
+
+	public void setCursor(Cursor cursor) {
+		this.cursor = cursor;
+	}
+
 }

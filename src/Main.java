@@ -8,6 +8,8 @@ import controller.tools.BrushController;
 import ui_funny_paint.screen.MainFrame;
 import model.DatabaseManager;
 
+import static utils.CursorManager.*;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -64,6 +66,7 @@ public class Main {
         MainFrame frame = new MainFrame();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-        frame.getController().setCanvasTool(new BrushController());
+        frame.getController().setCanvasTool(new BrushController(brushCursor));
     }
+
 }

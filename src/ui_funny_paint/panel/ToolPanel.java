@@ -8,7 +8,10 @@ import javax.swing.*;
 
 import controller.canvas.CanvasController;
 import controller.tools.*;
+import ui_funny_paint.screen.MainFrame;
+import utils.CursorManager;
 
+import static utils.CursorManager.*;
 import static utils.LoadIcon.loadIcon;
 
 @SuppressWarnings("serial")
@@ -28,19 +31,10 @@ public class ToolPanel extends JToolBar {
 		
 		ButtonListener listener = new ButtonListener();
 		
-		this.brush = new BrushController();
-		this.bucket = new BucketController();
-		this.eyeDropper = new EyeDropperController();
-		this.eraser = new EraserController();
-		
-		
-//		String[] buttonLabels = { "Brush", "Eraser", "EyeDropper", "Bucket"};
-//		ImageIcon[] buttonIcons = {
-//				new ImageIcon("resources/paintbrush.png"),
-//				new ImageIcon("resources/eraser.png"),
-//				new ImageIcon("resources/eyedropper.png"),
-//				new ImageIcon("resources/bucket.png")
-//				};
+		this.brush = new BrushController(brushCursor);
+		this.bucket = new BucketController(bucketCursor);
+		this.eyeDropper = new EyeDropperController(eyedropperCursor);
+		this.eraser = new EraserController(eraserCursor);
 
 		String[] buttonLabels = {"Brush", "Eraser", "EyeDropper", "Bucket"};
 		ImageIcon[] buttonIcons = {
@@ -71,18 +65,22 @@ public class ToolPanel extends JToolBar {
 				
 			case "Bucket":
 				controller.setCanvasTool(bucket);
+				setCustomCursor(MainFrame.getInstance(), bucketCursor);
 				break;
 				
 			case "Brush":
 				controller.setCanvasTool(brush);
+				setCustomCursor(MainFrame.getInstance(), brushCursor);
 				break;
 				
 			case "EyeDropper":
 				controller.setCanvasTool(eyeDropper);
+				setCustomCursor(MainFrame.getInstance(), eyedropperCursor);
 				break;
 				
 			case "Eraser":
 				controller.setCanvasTool(eraser);
+				setCustomCursor(MainFrame.getInstance(), eraserCursor);
 				break;
 			}
 		}
