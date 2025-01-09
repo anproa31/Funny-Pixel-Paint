@@ -3,126 +3,99 @@ package ui_funny_paint.component.button;
 import controller.canvas.CanvasController;
 import ui_funny_paint.panel.PixelCanvas;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-
-@SuppressWarnings("serial")
 public class ColorToggler extends JToolBar implements ActionListener {
-	private CanvasController controller;
-	private ColorButton primaryColorButton;
-	private ColorButton secondaryColorButton;
-	private JPanel primaryButtonContainer;
-	private JPanel secondaryButtonContainer;
-	private boolean primaryColorPicked;
-	
-	private static
-	Color selectedBackgroundColor = new Color(37, 122, 253);
-	private static Color defaultBackgroundColor;
+    private CanvasController controller;
+    private final ColorButton primaryColorButton;
+    private final ColorButton secondaryColorButton;
+    private boolean primaryColorPicked;
 
-	
-	
-	public ColorToggler(Color primaryColor, Color secondaryColor) {
-		this.primaryColorButton = new ColorButton(primaryColor);
-		this.primaryColorButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		this.primaryColorButton.addActionListener(this);
-		
-		this.secondaryColorButton = new ColorButton(secondaryColor);
-		this.secondaryColorButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		this.secondaryColorButton.addActionListener(this);
-
-		// select primary color by default
-		this.primaryColorPicked = true;
-		
-//		JLabel primaryLabel = new JLabel("Primary");
-//		primaryLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-//		JLabel secondaryLabel = new JLabel("Secondary");
-//		secondaryLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+    private static final Color selectedBackgroundColor = new Color(37, 122, 253);
+    private static Color defaultBackgroundColor;
 
 
-		this.primaryButtonContainer = new JPanel();
-		this.primaryButtonContainer.setLayout(new BoxLayout(primaryButtonContainer, BoxLayout.Y_AXIS));
-		this.primaryButtonContainer.add(primaryColorButton);
-//		this.primaryButtonContainer.add(primaryLabel);
-		
-		this.secondaryButtonContainer = new JPanel();
-		this.secondaryButtonContainer.setLayout(new BoxLayout(secondaryButtonContainer, BoxLayout.Y_AXIS));
-		this.secondaryButtonContainer.add(secondaryColorButton);
-//		this.secondaryButtonContainer.add(secondaryLabel);
+    public ColorToggler(Color primaryColor, Color secondaryColor) {
+        this.primaryColorButton = new ColorButton(primaryColor);
+        this.primaryColorButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        this.primaryColorButton.addActionListener(this);
 
-		
-		add(primaryButtonContainer);
-		addSeparator();
-		add(secondaryButtonContainer);
-		setFloatable(false);
-		defaultBackgroundColor = primaryButtonContainer.getBackground();
-		revalidate();
-	}
-	
+        this.secondaryColorButton = new ColorButton(secondaryColor);
+        this.secondaryColorButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        this.secondaryColorButton.addActionListener(this);
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-	}
-
-	
-	public void setColor(Color c)
-	{
-		if(this.primaryColorPicked)
-			this.primaryColorButton.setSelectedColor(c);
-		else
-			this.secondaryColorButton.setSelectedColor(c);
-		updateCanvas();
-	}
-	
-	public void swapColors() {
-		Color primary = this.primaryColorButton.getSelectedColor();
-		Color secondary = this.secondaryColorButton.getSelectedColor();
-		
-		this.primaryColorButton.setSelectedColor(secondary);
-		this.secondaryColorButton.setSelectedColor(primary);
-		updateCanvas();
-		repaint();
-	}
-	
-	public void updateCanvas()
-	{
-		PixelCanvas canvas = controller.getCanvas();
-		if(canvas == null)
-			return;
-		canvas.setPrimaryColor(this.primaryColorButton.getSelectedColor());
-		canvas.setSecondaryColor(this.secondaryColorButton.getSelectedColor());
-	}
-	
-	public void setController(CanvasController controller)
-	{
-		this.controller = controller;
-	}
+        this.primaryColorPicked = true;
 
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+        JPanel primaryButtonContainer = new JPanel();
+        primaryButtonContainer.setLayout(new BoxLayout(primaryButtonContainer, BoxLayout.Y_AXIS));
+        primaryButtonContainer.add(primaryColorButton);
 
-		this.primaryColorPicked = e.getSource() == this.primaryColorButton;
+        JPanel secondaryButtonContainer = new JPanel();
+        secondaryButtonContainer.setLayout(new BoxLayout(secondaryButtonContainer, BoxLayout.Y_AXIS));
+        secondaryButtonContainer.add(secondaryColorButton);
 
-		if(this.primaryColorPicked)
-		{
-			this.primaryColorButton.setBackground(selectedBackgroundColor);
-			this.secondaryColorButton.setBackground(defaultBackgroundColor);
-		}else {
-			this.primaryColorButton.setBackground(defaultBackgroundColor);
-			this.secondaryColorButton.setBackground(selectedBackgroundColor);
-		}
-		repaint();
-	}
-	
-	
-	
+        add(primaryButtonContainer);
+        addSeparator();
+        add(secondaryButtonContainer);
+        setFloatable(false);
+        defaultBackgroundColor = primaryButtonContainer.getBackground();
+        revalidate();
+    }
+
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+    }
+
+
+    public void setColor(Color c) {
+        if (this.primaryColorPicked)
+            this.primaryColorButton.setSelectedColor(c);
+        else
+            this.secondaryColorButton.setSelectedColor(c);
+        updateCanvas();
+    }
+
+    public void swapColors() {
+        Color primary = this.primaryColorButton.getSelectedColor();
+        Color secondary = this.secondaryColorButton.getSelectedColor();
+
+        this.primaryColorButton.setSelectedColor(secondary);
+        this.secondaryColorButton.setSelectedColor(primary);
+        updateCanvas();
+        repaint();
+    }
+
+    public void updateCanvas() {
+        PixelCanvas canvas = controller.getCanvas();
+        if (canvas == null)
+            return;
+        canvas.setPrimaryColor(this.primaryColorButton.getSelectedColor());
+        canvas.setSecondaryColor(this.secondaryColorButton.getSelectedColor());
+    }
+
+    public void setController(CanvasController controller) {
+        this.controller = controller;
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        this.primaryColorPicked = e.getSource() == this.primaryColorButton;
+
+        if (this.primaryColorPicked) {
+            this.primaryColorButton.setBackground(selectedBackgroundColor);
+            this.secondaryColorButton.setBackground(defaultBackgroundColor);
+        } else {
+            this.primaryColorButton.setBackground(defaultBackgroundColor);
+            this.secondaryColorButton.setBackground(selectedBackgroundColor);
+        }
+        repaint();
+    }
 }

@@ -15,7 +15,7 @@ public class CursorManager {
     public final static Cursor defaultCursor = Toolkit.getDefaultToolkit().createCustomCursor(defaultCursorImage, new Point(0,0), "defaultCursor");
     public final static Cursor brushCursor = Toolkit.getDefaultToolkit().createCustomCursor(brushCursorImage, new Point(14,14), "brushCursor");
     public final static Cursor eraserCursor = Toolkit.getDefaultToolkit().createCustomCursor(eraserCursorImage, new Point(0,0), "eraserCursor");
-    public final static Cursor eyedropperCursor = Toolkit.getDefaultToolkit().createCustomCursor(eyedropperCursorImage, new Point(0,31), "eyedroppeerCursor");
+    public final static Cursor eyedropperCursor = Toolkit.getDefaultToolkit().createCustomCursor(eyedropperCursorImage, new Point(0,31), "eyedropperCursor");
     public final static Cursor bucketCursor = Toolkit.getDefaultToolkit().createCustomCursor(bucketCursorImage, new Point(0,0), "bucketCursor");
 
 

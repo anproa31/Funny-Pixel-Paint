@@ -16,7 +16,6 @@ import static utils.LoadIcon.loadIcon;
 
 public class ToolPanel extends JToolBar {
     private CanvasController controller;
-
     private BrushController brush;
     private BucketController bucket;
     private EyeDropperController eyeDropper;

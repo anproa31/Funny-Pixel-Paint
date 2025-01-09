@@ -1,8 +1,9 @@
 package ui_funny_paint.panel;
 
+import ui_funny_paint.component.UIElements.HueSlider;
+
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,79 +12,39 @@ import java.awt.image.BufferedImage;
 public class CustomHSVChooserPanel extends AbstractColorChooserPanel {
     private JPanel colorBoxPanel;
     private BufferedImage colorBoxImage;
-    private float hue = 0; // Default hue
-    private int selectedX = -1; // X position of the selected color
-    private int selectedY = -1; // Y position of the selected color
-    private JSlider hueSlider; // Vertical hue slider
-    private JPanel colorPreviewPanel; // Color preview box
+    private float hue = 0;
+    private int selectedX = -1;
+    private int selectedY = -1;
+    private JSlider hueSlider;
+    private JPanel colorPreviewPanel;
 
     private boolean isUpdatingFromColorBox = false;
+
     @Override
     protected void buildChooser() {
         setLayout(new BorderLayout());
+        setupColorBoxPanel();
+        setupHueSlider();
+        setupColorPreviewPanel();
+        setupLayout();
 
-        colorBoxPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (colorBoxImage != null) {
-                    g.drawImage(colorBoxImage, 0, 0, getWidth(), getHeight(), this);
-                }
 
-                if (selectedX >= 0 && selectedY >= 0 && colorBoxImage != null &&
-                        selectedX < colorBoxImage.getWidth() && selectedY < colorBoxImage.getHeight()) {
-                    Color selectedColor = new Color(colorBoxImage.getRGB(selectedX, selectedY));
+        updateColorBox();
+    }
 
-                    double brightness = (selectedColor.getRed() * 0.299 +
-                            selectedColor.getGreen() * 0.587 +
-                            selectedColor.getBlue() * 0.114) / 255;
+    private void setupLayout() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(colorBoxPanel, BorderLayout.CENTER);
+        mainPanel.add(hueSlider, BorderLayout.SOUTH);
 
-                    Color indicatorColor = (brightness < 0.5) ? Color.WHITE : Color.BLACK;
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(colorPreviewPanel, BorderLayout.WEST);
 
-                    g.setColor(indicatorColor);
-                    int size = 20; // Size of the plus icon
-                    int x = selectedX - size / 2; // Center the plus icon horizontally
-                    int y = selectedY - size / 2; // Center the plus icon vertically
+        add(mainPanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+    }
 
-                    g.drawLine(x, y + size / 2, x + size, y + size / 2);
-                    g.drawLine(x + size / 2, y, x + size / 2, y + size);
-                }
-            }
-        };
-
-        colorBoxPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                updateColorFromMouse(e); // Update color when mouse is pressed
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                updateColorFromMouse(e); // Update color when mouse is released
-            }
-        });
-
-        colorBoxPanel.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                updateColorFromMouse(e); // Update color when mouse is dragged
-            }
-        });
-
-        colorBoxPanel.setPreferredSize(new Dimension(150, 150));
-        colorBoxPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-
-        // Initialize the vertical hue slider
-        hueSlider = new JSlider(JSlider.HORIZONTAL, 0, 360, 0);
-        hueSlider.setUI(new HueSliderUI(hueSlider)); // Use custom UI
-        hueSlider.setPreferredSize(new Dimension(150, 50));
-        hueSlider.setFocusable(false);
-        // Add change listener to the hue slider
-        hueSlider.addChangeListener(e -> {
-            hue = hueSlider.getValue() / 360f;
-            updateColorBox();
-        });
-
+    private void setupColorPreviewPanel() {
         colorPreviewPanel = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -127,34 +88,85 @@ public class CustomHSVChooserPanel extends AbstractColorChooserPanel {
                 }
             }
         });
+    }
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(colorBoxPanel, BorderLayout.CENTER);
-        mainPanel.add(hueSlider, BorderLayout.SOUTH);
+    private void setupHueSlider() {
+        hueSlider = new JSlider(JSlider.HORIZONTAL, 0, 360, 0);
+        hueSlider.setUI(new HueSlider(hueSlider)); // Use custom UI
+        hueSlider.setPreferredSize(new Dimension(150, 50));
+        hueSlider.setFocusable(false);
+        // Add change listener to the hue slider
+        hueSlider.addChangeListener(e -> {
+            hue = hueSlider.getValue() / 360f;
+            updateColorBox();
+        });
 
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(colorPreviewPanel, BorderLayout.WEST);
+    }
 
-        add(mainPanel, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH);
+    private void setupColorBoxPanel() {
+        colorBoxPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (colorBoxImage != null) {
+                    g.drawImage(colorBoxImage, 0, 0, getWidth(), getHeight(), this);
+                }
 
-        updateColorBox();
+                if (selectedX >= 0 && selectedY >= 0 && colorBoxImage != null &&
+                        selectedX < colorBoxImage.getWidth() && selectedY < colorBoxImage.getHeight()) {
+                    Color selectedColor = new Color(colorBoxImage.getRGB(selectedX, selectedY));
+
+                    double brightness = (selectedColor.getRed() * 0.299 +
+                            selectedColor.getGreen() * 0.587 +
+                            selectedColor.getBlue() * 0.114) / 255;
+
+                    Color indicatorColor = (brightness < 0.5) ? Color.WHITE : Color.BLACK;
+
+                    g.setColor(indicatorColor);
+                    int size = 20;
+                    int x = selectedX - size / 2;
+                    int y = selectedY - size / 2;
+
+                    g.drawLine(x, y + size / 2, x + size, y + size / 2);
+                    g.drawLine(x + size / 2, y, x + size / 2, y + size);
+                }
+            }
+        };
+        colorBoxPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                updateColorFromMouse(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                updateColorFromMouse(e);
+            }
+        });
+
+        colorBoxPanel.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                updateColorFromMouse(e);
+            }
+        });
+
+        colorBoxPanel.setPreferredSize(new Dimension(150, 150));
+        colorBoxPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
     }
 
     private void updateColorBox() {
         int width = 150;
         int height = 150;
 
-
-        // Create a new image for the color box
         colorBoxImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = colorBoxImage.createGraphics();
 
-        // Draw the color box
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 float saturation = (float) x / width;
-                float value = 1 - (float) y / height; // Invert y-axis for value
+                float value = 1 - (float) y / height;
                 Color color = Color.getHSBColor(hue, saturation, value);
                 g2d.setColor(color);
                 g2d.fillRect(x, y, 1, 1);
@@ -242,59 +254,5 @@ public class CustomHSVChooserPanel extends AbstractColorChooserPanel {
     @Override
     public Icon getLargeDisplayIcon() {
         return null; // No icon
-    }
-}
-
-
-class HueSliderUI extends BasicSliderUI {
-    public HueSliderUI(JSlider slider) {
-        super(slider);
-    }
-
-    @Override
-    public void paintTrack(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Use the trackRect dimensions to draw the gradient
-        int x = trackRect.x;
-        int y = trackRect.y;
-        int width = trackRect.width;
-        int height = trackRect.height;
-
-        // Draw the gradient for the hue slider (horizontal)
-        for (int i = 0; i < width; i++) {
-            float hue = (float) i / width; // Normalize hue to 0-1
-            g2d.setColor(Color.getHSBColor(hue, 1, 1)); // Full saturation and value
-            g2d.drawLine(x + i, y, x + i, y + height -1);
-        }
-
-        g2d.dispose();
-    }
-
-    @Override
-    public void paintThumb(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Customize the thumb appearance
-        g2d.setColor(Color.BLACK); // Thumb color
-
-        g2d.fillRect(thumbRect.x, thumbRect.y + thumbRect.y/2 + 1, 10, 10); // Fill the thumb
-
-        g2d.dispose();
-    }
-
-    @Override
-    protected Dimension getThumbSize() {
-        // Set the size of the thumb
-        return new Dimension(10, 25); // Width x Height
-    }
-
-    @Override
-    protected void calculateThumbLocation() {
-        // Force the slider to repaint when the thumb moves
-        super.calculateThumbLocation();
-        slider.repaint(); // Ensure the slider is repainted when the thumb moves
     }
 }

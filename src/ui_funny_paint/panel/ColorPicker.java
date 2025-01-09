@@ -3,13 +3,16 @@ package ui_funny_paint.panel;
 import controller.canvas.CanvasController;
 import ui_funny_paint.component.button.ColorToggler;
 
-import java.awt.*;
-import java.io.*;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import static java.lang.Integer.min;
 
@@ -19,15 +22,6 @@ public class ColorPicker extends JPanel {
     private JPanel swatchesPanel;
     private JPanel colorBoxPanel;
     private final ArrayList<JButton> colorPaletteButton = new ArrayList<>();
-
-    private class Listener implements ChangeListener {
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            ColorToggler colorToggler = ColorPicker.this.controller.getColorToggler();
-            if (colorToggler == null) return;
-            colorToggler.setColor(ColorPicker.this.colorChooser.getColor());
-        }
-    }
 
     public ColorPicker(Color initialColor) {
         createColorWheelPanel(initialColor);
@@ -42,14 +36,12 @@ public class ColorPicker extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 
-        // Add the swatches panel to the top of the GridBagLayout
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1;
         this.add(swatchesPanel, gbc);
 
-        // Add the colorbox to the bottom of the GridBagLayout
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 1.0;
@@ -81,11 +73,10 @@ public class ColorPicker extends JPanel {
         swatchesGbc.insets = new Insets(1, 1, 1, 1);
 
         ArrayList<Color> swatchesColors = readColorPalette();
-        int columns = 5; // Number of columns in the grid
+        int columns = 5;
         for (int i = 0; i < swatchesColors.size(); i++) {
-            JButton colorButton = getjButton(swatchesColors, i);
+            JButton colorButton = getColorButton(swatchesColors, i);
 
-            // Add the button to the grid
             swatchesGbc.gridx = i % columns; // Column index
             swatchesGbc.gridy = i / columns; // Row index
             colorPaletteButton.add(colorButton);
@@ -99,7 +90,7 @@ public class ColorPicker extends JPanel {
         swatchesPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
     }
 
-    private JButton getjButton(ArrayList<Color> swatchesColors, int i) {
+    private JButton getColorButton(ArrayList<Color> swatchesColors, int i) {
         JButton colorButton = new JButton() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -151,6 +142,15 @@ public class ColorPicker extends JPanel {
             throw new RuntimeException("Failed to read color palette", e);
         }
         return colorsList;
+    }
+
+    private class Listener implements ChangeListener {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            ColorToggler colorToggler = ColorPicker.this.controller.getColorToggler();
+            if (colorToggler == null) return;
+            colorToggler.setColor(ColorPicker.this.colorChooser.getColor());
+        }
     }
 
     public void setController(CanvasController controller) {
