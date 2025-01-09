@@ -131,7 +131,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 
 	private void drawChessboard(Graphics2D g2d) {
 		int squareSize = 16; // Each square is 16x16 pixels (unscaled)
-		int scaledSquareSize = (int) (squareSize * scaleFactor); // Scale the square size based on zoom level
+		int scaledSquareSize = (int) Math.round(squareSize * scaleFactor + 2); // Scale the square size based on zoom level
 
 		int canvasWidth = pixels.getWidth();
 		int canvasHeight = pixels.getHeight();
@@ -154,8 +154,8 @@ public class PixelCanvas extends JComponent implements Serializable {
 				}
 				// Scale the position and size of each square
 				g2d.fillRect(
-						(int) (x * squareSize * scaleFactor),
-						(int) (y * squareSize * scaleFactor),
+						(int) Math.round(x * squareSize * scaleFactor + 1),
+						(int) Math.round(y * squareSize * scaleFactor + 1),
 						scaledSquareSize,
 						scaledSquareSize
 				);
