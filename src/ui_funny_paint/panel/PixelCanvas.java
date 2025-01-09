@@ -129,86 +129,56 @@ public class PixelCanvas extends JComponent implements Serializable {
 		g2d.dispose();
 	}
 
+//	private void drawChessboard(Graphics2D g2d) {
+//		// Calculate scaled dimensions
+//		int scaledWidth = (int)(pixels.getWidth() * scaleFactor);
+//		int scaledHeight = (int)(pixels.getHeight() * scaleFactor);
+//		int squareSize = 16;
+//		int scaledSquareSize = (int)(squareSize * scaleFactor);
+//
+//		// Start at (1,1) for border offset
+//		for (int y = 1; y <= scaledHeight; y += scaledSquareSize) {
+//			for (int x = 1; x <= scaledWidth; x += scaledSquareSize) {
+//				// Alternate colors based on position
+//				if (((x/scaledSquareSize) + (y/scaledSquareSize)) % 2 == 0) {
+//					g2d.setColor(new Color(192, 192, 192));
+//				} else {
+//					g2d.setColor(new Color(128, 128, 128));
+//				}
+//
+//				// Calculate square dimensions
+//				int width = Math.min(scaledSquareSize, scaledWidth - x + 1);
+//				int height = Math.min(scaledSquareSize, scaledHeight - y + 1);
+//
+//				g2d.fillRect(x, y, width, height);
+//			}
+//		}
+//	}
+
 	private void drawChessboard(Graphics2D g2d) {
-		int squareSize = 16; // Each square is 16x16 pixels (unscaled)
-		int scaledSquareSize = (int) Math.round(squareSize * scaleFactor + 2); // Scale the square size based on zoom level
+		int scaledWidth = (int)(pixels.getWidth() * scaleFactor);
+		int scaledHeight = (int)(pixels.getHeight() * scaleFactor);
+		int baseSquareSize = 16;
+		// Round the scaled square size to nearest integer
+		int scaledSquareSize = (int) Math.max(1, Math.round(baseSquareSize * scaleFactor));
 
-		int canvasWidth = pixels.getWidth();
-		int canvasHeight = pixels.getHeight();
+		// Ensure the starting position is properly aligned with the scaled grid
+		for (int y = 1; y <= scaledHeight; y += scaledSquareSize) {
+			for (int x = 1; x <= scaledWidth; x += scaledSquareSize) {
+				// Use integer division for consistent pattern
+				int gridX = (x - 1) / scaledSquareSize;
+				int gridY = (y - 1) / scaledSquareSize;
 
-		// Calculate the number of full squares that fit in the canvas
-		int numSquaresX = canvasWidth / squareSize;
-		int numSquaresY = canvasHeight / squareSize;
-
-		// Calculate the remaining pixels after drawing full squares
-		int remainingX = canvasWidth % squareSize;
-		int remainingY = canvasHeight % squareSize;
-
-		// Draw the chessboard pattern
-		for (int y = 0; y < numSquaresY; y++) {
-			for (int x = 0; x < numSquaresX; x++) {
-				if ((x + y) % 2 == 0) {
+				if ((gridX + gridY) % 2 == 0) {
 					g2d.setColor(new Color(192, 192, 192));
 				} else {
 					g2d.setColor(new Color(128, 128, 128));
 				}
-				// Scale the position and size of each square
-				g2d.fillRect(
-						(int) Math.round(x * squareSize * scaleFactor + 1),
-						(int) Math.round(y * squareSize * scaleFactor + 1),
-						scaledSquareSize,
-						scaledSquareSize
-				);
-			}
-		}
 
-		// Handle the remaining pixels on the right side
-		if (remainingX > 0) {
-			for (int y = 0; y < numSquaresY; y++) {
-				if ((numSquaresX + y) % 2 == 0) {
-					g2d.setColor(new Color(192, 192, 192));
-				} else {
-					g2d.setColor(new Color(128, 128, 128));
-				}
-				g2d.fillRect(
-						(int) (numSquaresX * squareSize * scaleFactor),
-						(int) (y * squareSize * scaleFactor),
-						(int) (remainingX * scaleFactor),
-						scaledSquareSize
-				);
+				int width = Math.min(scaledSquareSize, scaledWidth - x + 1);
+				int height = Math.min(scaledSquareSize, scaledHeight - y + 1);
+				g2d.fillRect(x, y, width, height);
 			}
-		}
-
-		// Handle the remaining pixels at the bottom
-		if (remainingY > 0) {
-			for (int x = 0; x < numSquaresX; x++) {
-				if ((x + numSquaresY) % 2 == 0) {
-					g2d.setColor(new Color(192, 192, 192));
-				} else {
-					g2d.setColor(new Color(128, 128, 128));
-				}
-				g2d.fillRect(
-						(int) (x * squareSize * scaleFactor),
-						(int) (numSquaresY * squareSize * scaleFactor),
-						scaledSquareSize,
-						(int) (remainingY * scaleFactor)
-				);
-			}
-		}
-
-		// Handle the bottom-right corner if both remainingX and remainingY are greater than 0
-		if (remainingX > 0 && remainingY > 0) {
-			if ((numSquaresX + numSquaresY) % 2 == 0) {
-				g2d.setColor(new Color(128, 128, 128));
-			} else {
-				g2d.setColor(new Color(192, 192, 192));
-			}
-			g2d.fillRect(
-					(int) (numSquaresX * squareSize * scaleFactor),
-					(int) (numSquaresY * squareSize * scaleFactor),
-					(int) (remainingX * scaleFactor),
-					(int) (remainingY * scaleFactor)
-			);
 		}
 	}
 
@@ -223,23 +193,38 @@ public class PixelCanvas extends JComponent implements Serializable {
 	public void zoom(double scale, Point p) {
 		JPanel canvasPanel = this.controller.getCanvasPanel();
 		double oldScale = this.scaleFactor;
-		double newScale = scaleFactor * ((scale < 0) ? 1.1f : 0.9f);
 
-		// Restrict zooming in too far or out too far (10 times).
-		double scaleByDefault = newScale / controller.calculateScale();
-		if (scaleByDefault < 0.1 || scaleByDefault > 10)
-			return;
+		// Calculate the new scale factor by rounding to the nearest integer
+		double zoomFactor = scale < 0 ? 1 : -1; // Determine the direction of zoom
+		double newScale = this.scaleFactor + zoomFactor;
 
+		// Ensure the scale factor is at least 1 (or any minimum value you prefer)
+		newScale = Math.max(1, newScale);
+
+		// Snap to the nearest integer
+		newScale = Math.round(newScale);
+
+		// Update the scale factor
 		this.scaleFactor = newScale;
+
+		// Calculate the scale change ratio
 		double scaleChange = this.scaleFactor / oldScale;
 
-		// Calculate the new scroll position based on the mouse cursor
+		// Adjust the visible rectangle to keep the zoom centered
 		Rectangle visibleRect = canvasPanel.getVisibleRect();
-		double scrollX = p.getX() * scaleChange - (p.getX() - visibleRect.getX());
-		double scrollY = p.getY() * scaleChange - (p.getY() - visibleRect.getY());
+		double centerX = visibleRect.getX() + visibleRect.getWidth() / 2;
+		double centerY = visibleRect.getY() + visibleRect.getHeight() / 2;
+
+		double newCenterX = centerX * scaleChange;
+		double newCenterY = centerY * scaleChange;
+
+		double scrollX = newCenterX - visibleRect.getWidth() / 2;
+		double scrollY = newCenterY - visibleRect.getHeight() / 2;
 
 		visibleRect.setRect(scrollX, scrollY, visibleRect.getWidth(), visibleRect.getHeight());
 		canvasPanel.scrollRectToVisible(visibleRect);
+
+		// Repaint the canvas to reflect the new zoom level
 		repaint();
 	}
 
@@ -414,11 +399,13 @@ public class PixelCanvas extends JComponent implements Serializable {
 	}
 
 	public int getScaledCoord(int coord) {
-		return (int) ((coord - 1) / scaleFactor);
+		// Round to nearest integer to prevent floating point errors
+		return (int) Math.round((coord - 1) / scaleFactor);
 	}
 
 	public int getScaledCoord(int coord, int size) {
-		return (int) ((coord - 1) / scaleFactor) - (size / 2);
+		// Ensure brush size scaling matches zoom level
+		return (int) Math.round((coord - 1) / scaleFactor - (size / 2.0f));
 	}
 
 	public Point getScaledCoord(Point p, int size) {
