@@ -9,15 +9,12 @@ import ui_funny_paint.panel.PixelCanvas;
 
 
 public class BucketController extends Tool {
-	
 	public BucketController() {
 		super();
 	}
-	
     public BucketController(Cursor cursor) {
 		super(cursor);
 	}
-    
 
 	public void mousePressed(MouseEvent e)
     {

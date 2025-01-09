@@ -4,7 +4,7 @@ package ui_funny_paint.screen;
 import controller.canvas.CanvasController;
 import model.DatabaseManager;
 import ui_funny_paint.component.button.ColorToggler;
-import ui_funny_paint.component.field.ToolSizeField;
+import ui_funny_paint.component.UIElements.ToolSizeSlider;
 import ui_funny_paint.panel.ColorPicker;
 import ui_funny_paint.panel.ControlPanel;
 import ui_funny_paint.panel.MainMenuBar;
@@ -100,9 +100,9 @@ public class MainFrame extends JFrame {
         GlobalKeyBinder globalKeyBinder = new GlobalKeyBinder(this.getRootPane());
         globalKeyBinder.setController(controller);
 
-        ToolSizeField toolSizeField = new ToolSizeField();
-        toolSizeField.setController(controller);
-        controlPanel.add(toolSizeField);
+        ToolSizeSlider toolSizeSlider = new ToolSizeSlider();
+        toolSizeSlider.setController(controller);
+        controlPanel.add(toolSizeSlider);
     }
 
     private void setupLayout() {

@@ -11,10 +11,10 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public final class ImageFileManager {
-	private ImageFileManager() {} // hide the constructor
-	
 	public static String latestPath = null;
-	
+
+	private ImageFileManager() {}
+
 	public static BufferedImage open() 
 	{
 		JFileChooser fileChooser = new JFileChooser();
@@ -59,37 +59,6 @@ public final class ImageFileManager {
 		}
 	}
 	
-	
-	public static String save(BufferedImage image)
-	{
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Specify a file to save");   
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG file", "png"));
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG file", "jpg", "jpeg"));
-		 
-		int userSelection = fileChooser.showSaveDialog(null);
-		 
-		if (userSelection == JFileChooser.APPROVE_OPTION) {
-		    File fileToSave = getSelectedFileWithExtension(fileChooser);
-		    String name = fileToSave.getName();
-		    String format = name.substring(1+name.lastIndexOf(".")).toLowerCase();
-		    
-		    try {
-		    	ImageIO.setUseCache(false);
-				ImageIO.write(image, format, fileToSave);
-				return fileToSave.getAbsolutePath();
-				
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, "Failed saving the Image.", "Saving Failed",
-				        JOptionPane.ERROR_MESSAGE);
-
-			}
-		}
-		return null;
-	}
-	
 	public static File getSelectedFileWithExtension(JFileChooser c) 
 	{
 	    File file = c.getSelectedFile();
@@ -118,8 +87,6 @@ public final class ImageFileManager {
 		g2d.drawImage(original, 0, 0, newWidth, newHeight, 0, 0, original.getWidth(),
 		    original.getHeight(), null);
 		g2d.dispose();
-		
 		return resized;
 	}
-
 }
