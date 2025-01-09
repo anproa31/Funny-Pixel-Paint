@@ -17,6 +17,7 @@ import ui_funny_paint.panel.ControlPanel;
 import ui_funny_paint.panel.PixelCanvas;
 import ui_funny_paint.panel.ToolPanel;
 import ui_funny_paint.screen.MainFrame;
+import utils.CursorManager;
 
 /**
  * Class responsible for the communication between different components
@@ -126,10 +127,9 @@ public class CanvasController {
 	
 	public void setCanvasTool(Tool t)
 	{
-		if(this.canvas == null)
-			return;
 		this.activeTool = t;
-		this.canvas.setSelectedTool(t);
+		CursorManager.setCustomCursor(MainFrame.getInstance().getCanvasContainer(), t.getCursor());
+		if(this.canvas != null) this.canvas.setSelectedTool(t);
 	}
 	
 	

@@ -1,7 +1,6 @@
 package controller.tools;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import ui_funny_paint.panel.PixelCanvas;
@@ -13,8 +12,8 @@ public class BrushController extends Tool {
 		super();
 	}
 
-	public BrushController(ImageIcon icon) {
-		super(icon);
+	public BrushController(Cursor cursor) {
+		super(cursor);
 	}
 
 	@Override

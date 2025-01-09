@@ -14,8 +14,8 @@ public class EyeDropperController extends Tool {
 		super();
 	}
 	
-    public EyeDropperController(ImageIcon icon) {
-		super(icon);
+    public EyeDropperController(Cursor cursor) {
+		super(cursor);
 	}
 
 	public void mousePressed(MouseEvent e)

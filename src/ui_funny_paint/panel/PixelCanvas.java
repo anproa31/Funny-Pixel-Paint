@@ -388,7 +388,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 
 	public void eyeDrop(int x, int y) {
 		int rgb = this.pixels.getRGB(getScaledCoord(x), getScaledCoord(y));
-		Color c = new Color(rgb, true);
+		Color c = new Color(rgb);
 
 		this.controller.getColorPicker().setColor(c);
 		this.controller.getColorToggler().setColor(c);

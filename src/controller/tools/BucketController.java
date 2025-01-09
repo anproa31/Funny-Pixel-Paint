@@ -14,8 +14,8 @@ public class BucketController extends Tool {
 		super();
 	}
 	
-    public BucketController(ImageIcon icon) {
-		super(icon);
+    public BucketController(Cursor cursor) {
+		super(cursor);
 	}
     
 

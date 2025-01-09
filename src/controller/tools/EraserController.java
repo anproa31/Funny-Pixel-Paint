@@ -1,6 +1,6 @@
 package controller.tools;
 
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
@@ -17,8 +17,8 @@ public class EraserController extends Tool {
 		this.lastPoint = null;
 	}
 
-	public EraserController(ImageIcon icon) {
-		super(icon);
+	public EraserController(Cursor cursor) {
+		super(cursor);
 		this.pressed = false;
 		this.lastPoint = null;
 	}
