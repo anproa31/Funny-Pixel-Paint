@@ -37,8 +37,7 @@ public class PixelCanvas extends JComponent implements Serializable {
         this.mouseAdapter = new MouseAdapter() {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 double scale = e.getPreciseWheelRotation();
-                Point p = e.getPoint();
-                PixelCanvas.this.zoom(scale, p);
+                PixelCanvas.this.zoom(scale);
             }
         };
 
@@ -146,7 +145,7 @@ public class PixelCanvas extends JComponent implements Serializable {
         repaint();
     }
 
-    public void zoom(double scale, Point p) {
+    public void zoom(double scale) {
         JPanel canvasPanel = this.controller.getCanvasPanel();
         double oldScale = this.scaleFactor;
 
@@ -327,7 +326,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 
 	public byte[] toBytes() {
 		try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-			ObjectOutputStream out = null;
+			ObjectOutputStream out;
 			out = new ObjectOutputStream(bos);
 			// Serialize the whole object
 			out.writeObject(this);
@@ -357,8 +356,7 @@ public class PixelCanvas extends JComponent implements Serializable {
 
 				public void mouseWheelMoved(MouseWheelEvent e) {
 					double scale = e.getPreciseWheelRotation();
-					Point p = e.getPoint();
-					canvas.zoom(scale, p);
+                    canvas.zoom(scale);
 				}
 			});
 
