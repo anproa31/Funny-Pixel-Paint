@@ -228,7 +228,7 @@ public class PixelCanvas extends JComponent implements Serializable {
     public void erase(int x, int y) {
         int brushSize = controller.getSize();
         int realX = this.getScaledCoord(x, brushSize);
-        int realY = this.getScaledCoord(y, 1);
+        int realY = this.getScaledCoord(y, brushSize);
 
         Graphics2D g2d = this.pixels.createGraphics();
         g2d.setColor(new Color(0, 0, 0, 0));
@@ -265,8 +265,8 @@ public class PixelCanvas extends JComponent implements Serializable {
     }
 
     public void floodFill(int x, int y, Color c) {
-        int realX = getScaledCoord(x);
-        int realY = getScaledCoord(y);
+        int realX = getScaledCoord(x, 1);
+        int realY = getScaledCoord(y, 1);
 
         int targetColor = this.pixels.getRGB(realX, realY);
         int replaceColor = c.getRGB();
@@ -382,7 +382,7 @@ public class PixelCanvas extends JComponent implements Serializable {
     }
 
     public void eyeDrop(int x, int y) {
-        int rgb = this.pixels.getRGB(getScaledCoord(x), getScaledCoord(y));
+        int rgb = this.pixels.getRGB(getScaledCoord(x, 1), getScaledCoord(y, 1));
         Color c = new Color(rgb);
 
         this.controller.getColorPicker().setColor(c);
@@ -393,28 +393,14 @@ public class PixelCanvas extends JComponent implements Serializable {
         return this.pixels;
     }
 
-    public int getScaledCoord(int coord) {
-        return (int) Math.round((coord - 1) / scaleFactor);
-    }
+
 
     public int getScaledCoord(int coord, int size) {
         return (int) Math.round((coord - 1) / scaleFactor - (size / 2.0f));
     }
 
-    public Point getScaledCoord(Point p, int size) {
-        int realX = this.getScaledCoord(p.x, size);
-        int realY = this.getScaledCoord(p.y, size);
 
-        return new Point(realX, realY);
-    }
 
-    public Point getScaledCoord(Point p) {
-        return getScaledCoord(p, 0);
-    }
-
-    public Tool getSelectedTool() {
-        return selectedTool;
-    }
 
     public void setSelectedTool(Tool selectedTool) {
         if (this.selectedTool != null) {
@@ -442,9 +428,6 @@ public class PixelCanvas extends JComponent implements Serializable {
         this.secondaryColor = secondaryColor;
     }
 
-    public double getScale() {
-        return this.scaleFactor;
-    }
 
     public void setScale(double scale) {
         this.scaleFactor = scale;
