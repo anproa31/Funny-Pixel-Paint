@@ -233,7 +233,7 @@ public class PixelCanvas extends JComponent implements Serializable {
         Graphics2D g2d = this.pixels.createGraphics();
         g2d.setColor(new Color(0, 0, 0, 0));
         g2d.setComposite(AlphaComposite.Src);
-        g2d.fillRect(realX, realY, brushSize, 1);
+        g2d.fillRect(realX, realY, brushSize, brushSize);
 
         g2d.dispose();
     }
