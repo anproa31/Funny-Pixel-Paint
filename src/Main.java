@@ -14,9 +14,7 @@ import static utils.CursorManager.*;
 public class Main {
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            showSplashScreen(Main::initializeApplication);
-        });
+        EventQueue.invokeLater(() -> showSplashScreen(Main::initializeApplication));
     }
 
     private static void showSplashScreen(Runnable postSplashAction) {
@@ -62,7 +60,7 @@ public class Main {
 
     private static void setupFont() {
         InputStream fontStream = Main.class.getResourceAsStream("fonts/aseprite.ttf");
-        Font pixelFont = null;
+        Font pixelFont;
 
         try {
             assert fontStream != null;

@@ -5,10 +5,6 @@ import ui_funny_paint.panel.PixelCanvas;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
@@ -35,74 +31,55 @@ public class SaveCanvasDialog extends JDialog {
         JFormattedTextField savePath = new JFormattedTextField();
         savePath.setValue(canvas.getSavePath());
         savePath.setColumns(25);
-        savePath.addPropertyChangeListener("value", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                canvasSavePath = (String) ((JFormattedTextField) e.getSource()).getValue();
-            }
-        });
+        savePath.addPropertyChangeListener("value", e -> canvasSavePath = (String) ((JFormattedTextField) e.getSource()).getValue());
 
         JButton browseButton = getBrowseButton(savePath);
 
         widthInput = new JFormattedTextField(NumberFormat.getIntegerInstance());
         widthInput.setColumns(5);
         widthInput.setValue(canvas.getImage().getWidth());
-        widthInput.addPropertyChangeListener("value", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                width = ((Number) ((JFormattedTextField) e.getSource()).getValue()).intValue();
-                //modify scale
-                scale = calculateScale(canvas.getImage().getWidth(), width);
-                scaleInput.setValue(scale);
-                //modify height
-                height = (int) (canvas.getImage().getHeight() * scale);
-                heightInput.setValue(height);
+        widthInput.addPropertyChangeListener("value", e -> {
+            width = ((Number) ((JFormattedTextField) e.getSource()).getValue()).intValue();
+            //modify scale
+            scale = calculateScale(canvas.getImage().getWidth(), width);
+            scaleInput.setValue(scale);
+            //modify height
+            height = (int) (canvas.getImage().getHeight() * scale);
+            heightInput.setValue(height);
 
-            }
         });
 
         heightInput = new JFormattedTextField(NumberFormat.getIntegerInstance());
         heightInput.setColumns(5);
         heightInput.setValue(canvas.getImage().getHeight());
-        heightInput.addPropertyChangeListener("value", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                height = ((Number) ((JFormattedTextField) e.getSource()).getValue()).intValue();
-                // modify width
-                scale = calculateScale(canvas.getImage().getHeight(), height);
-                scaleInput.setValue(scale);
-                //modify height
-                width = (int) (canvas.getImage().getWidth() * scale);
-                widthInput.setValue(width);
-            }
+        heightInput.addPropertyChangeListener("value", e -> {
+            height = ((Number) ((JFormattedTextField) e.getSource()).getValue()).intValue();
+            // modify width
+            scale = calculateScale(canvas.getImage().getHeight(), height);
+            scaleInput.setValue(scale);
+            //modify height
+            width = (int) (canvas.getImage().getWidth() * scale);
+            widthInput.setValue(width);
         });
 
         scaleInput = new JFormattedTextField(NumberFormat.getNumberInstance());
         scaleInput.setColumns(3);
         scaleInput.setValue(1.0F);
-        scaleInput.addPropertyChangeListener("value", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                scale = ((Number) ((JFormattedTextField) e.getSource()).getValue()).doubleValue();
-                // modify height and width
-                width = (int) (canvas.getImage().getWidth() * scale);
-                widthInput.setValue(width);
+        scaleInput.addPropertyChangeListener("value", e -> {
+            scale = ((Number) ((JFormattedTextField) e.getSource()).getValue()).doubleValue();
+            // modify height and width
+            width = (int) (canvas.getImage().getWidth() * scale);
+            widthInput.setValue(width);
 
-                height = (int) (canvas.getImage().getHeight() * scale);
-                heightInput.setValue(height);
-            }
+            height = (int) (canvas.getImage().getHeight() * scale);
+            heightInput.setValue(height);
         });
 
 
         JButton okButton = getOkButton();
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SaveCanvasDialog.this.dispose();
-            }
-        });
+        cancelButton.addActionListener(e -> SaveCanvasDialog.this.dispose());
 
 
         JPanel widthPanel = new JPanel();
@@ -148,18 +125,15 @@ public class SaveCanvasDialog extends JDialog {
 
     private JButton getOkButton() {
         JButton okButton = new JButton("Ok");
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (validatePath(SaveCanvasDialog.this.canvasSavePath)) {
-                    SaveCanvasDialog.this.closeOperationOption = APPROVE_OPTION;
-                    SaveCanvasDialog.this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(SaveCanvasDialog.this, "Invalid Path.", "Saving Failed",
-                            JOptionPane.ERROR_MESSAGE);
-                    SaveCanvasDialog.this.closeOperationOption = CANCEL_OPTION;
-                    SaveCanvasDialog.this.dispose();
-                }
+        okButton.addActionListener(e -> {
+            if (validatePath(SaveCanvasDialog.this.canvasSavePath)) {
+                SaveCanvasDialog.this.closeOperationOption = APPROVE_OPTION;
+                SaveCanvasDialog.this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(SaveCanvasDialog.this, "Invalid Path.", "Saving Failed",
+                        JOptionPane.ERROR_MESSAGE);
+                SaveCanvasDialog.this.closeOperationOption = CANCEL_OPTION;
+                SaveCanvasDialog.this.dispose();
             }
         });
         return okButton;
@@ -167,24 +141,20 @@ public class SaveCanvasDialog extends JDialog {
 
     private JButton getBrowseButton(JFormattedTextField savePath) {
         JButton browseButton = new JButton("Browse...");
-        browseButton.addActionListener(new ActionListener() {
+        browseButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Specify a file to save");
+            fileChooser.setAcceptAllFileFilterUsed(false);
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Specify a file to save");
-                fileChooser.setAcceptAllFileFilterUsed(false);
-
-                fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG file", "png"));
-                fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG file", "jpg", "jpeg"));
-                int userSelection = fileChooser.showSaveDialog(null);
-                if (userSelection == JFileChooser.APPROVE_OPTION) {
-                    String path = ImageFileManager.getSelectedFileWithExtension(fileChooser).getAbsolutePath();
-                    savePath.setValue(path);
-                    canvasSavePath = path;
-                }
-
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG file", "png"));
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG file", "jpg", "jpeg"));
+            int userSelection = fileChooser.showSaveDialog(null);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                String path = ImageFileManager.getSelectedFileWithExtension(fileChooser).getAbsolutePath();
+                savePath.setValue(path);
+                canvasSavePath = path;
             }
+
         });
         return browseButton;
     }

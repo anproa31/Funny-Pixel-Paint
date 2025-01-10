@@ -10,8 +10,8 @@ public class RedoUndoController implements Serializable {
     private final LinkedBlockingDeque<Raster> undoed;
 
     public RedoUndoController() {
-        this.history = new LinkedBlockingDeque<Raster>();
-        this.undoed = new LinkedBlockingDeque<Raster>();
+        this.history = new LinkedBlockingDeque<>();
+        this.undoed = new LinkedBlockingDeque<>();
     }
 
     public void changeHappened(Raster image) {

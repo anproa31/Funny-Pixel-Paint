@@ -90,32 +90,16 @@ public class ToolPanel extends JToolBar {
         return brush;
     }
 
-    public void setBrush(BrushController brush) {
-        this.brush = brush;
-    }
-
     public BucketController getBucket() {
         return bucket;
-    }
-
-    public void setBucket(BucketController bucket) {
-        this.bucket = bucket;
     }
 
     public EyeDropperController getEyeDropper() {
         return eyeDropper;
     }
 
-    public void setEyeDropper(EyeDropperController eyeDropper) {
-        this.eyeDropper = eyeDropper;
-    }
-
     public EraserController getEraser() {
         return eraser;
-    }
-
-    public void setEraser(EraserController eraser) {
-        this.eraser = eraser;
     }
 
     public void setController(CanvasController controller) {

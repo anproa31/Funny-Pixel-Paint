@@ -34,12 +34,11 @@ public class DatabaseManager {
                 "    RECENTDATE TEXT DEFAULT (datetime('now', 'localtime'))" + // 0 for text, 1 for image
                 ");";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.executeUpdate();
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // do nothing
     }
 
     public static void disconnect() {
@@ -57,10 +56,10 @@ public class DatabaseManager {
             throw new IllegalArgumentException("data cannot be null");
 
         String sql = "INSERT INTO recent(NAME, DATA) VALUES(?,?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setBytes(2, data);
-            pstmt.executeUpdate();
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1, name);
+            statement.setBytes(2, data);
+            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -69,9 +68,9 @@ public class DatabaseManager {
     public static byte[] get(int id) {
         String sql = "SELECT DATA FROM recent WHERE ID= ?;";
         byte[] data = null;
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
             if (rs.isClosed())
                 return null;
 
@@ -79,7 +78,6 @@ public class DatabaseManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        // do nothing
         return data;
     }
 
@@ -88,10 +86,10 @@ public class DatabaseManager {
 
         String sql = "SELECT ID, NAME, RECENTDATE FROM RECENT ORDER BY datetime(RECENTDATE) DESC LIMIT 15;";
 
-        ArrayList<CanvasDatabaseObject> list = new ArrayList<CanvasDatabaseObject>();
+        ArrayList<CanvasDatabaseObject> list = new ArrayList<>();
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            ResultSet rs = pstmt.executeQuery();
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            ResultSet rs = statement.executeQuery();
 
             if (rs.isClosed())
                 return null;
@@ -108,20 +106,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
         return list;
-
-    }
-
-    public static boolean isConnected() {
-        if (conn == null) return false;
-
-        boolean isOpened = false;
-        try {
-            isOpened = conn.isClosed();
-        } catch (SQLException ignored) {
-        }
-        return isOpened;
     }
 
 }

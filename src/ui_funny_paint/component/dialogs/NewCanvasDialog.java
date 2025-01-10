@@ -1,14 +1,8 @@
 package ui_funny_paint.component.dialogs;
 
 
-import ui_funny_paint.component.dialogs.ColorChooserButton.ColorChangedListener;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 
 public class NewCanvasDialog extends JDialog {
@@ -34,51 +28,28 @@ public class NewCanvasDialog extends JDialog {
         JFormattedTextField widthInput = new JFormattedTextField(NumberFormat.getIntegerInstance());
         widthInput.setValue(width);
         widthInput.setColumns(5);
-        widthInput.addPropertyChangeListener("value", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                NewCanvasDialog.this.width = ((Number) ((JFormattedTextField) e.getSource()).getValue()).intValue();
-            }
-        });
+        widthInput.addPropertyChangeListener("value", e -> NewCanvasDialog.this.width = ((Number) ((JFormattedTextField) e.getSource()).getValue()).intValue());
 
         JFormattedTextField heightInput = new JFormattedTextField(NumberFormat.getIntegerInstance());
         heightInput.setColumns(5);
         heightInput.setValue(height);
-        heightInput.addPropertyChangeListener("value", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                NewCanvasDialog.this.height = ((Number) ((JFormattedTextField) e.getSource()).getValue()).intValue();
-            }
-        });
+        heightInput.addPropertyChangeListener("value", e -> NewCanvasDialog.this.height = ((Number) ((JFormattedTextField) e.getSource()).getValue()).intValue());
 
         ColorChooserButton colorChooser = new ColorChooserButton(defaultFillColor, "Choose a fill color");
-        colorChooser.addColorChangedListener(new ColorChangedListener() {
-            @Override
-            public void colorChanged(Color newColor) {
-                NewCanvasDialog.this.fillColor = newColor;
-            }
-        });
+        colorChooser.addColorChangedListener(newColor -> NewCanvasDialog.this.fillColor = newColor);
 
 
         JButton okButton = new JButton("Ok");
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                defaultWidth = width;
-                defaultHeight = height;
-                defaultFillColor = fillColor;
-                NewCanvasDialog.this.closeOperationOption = APPROVE_OPTION;
-                NewCanvasDialog.this.dispose();
-            }
+        okButton.addActionListener(e -> {
+            defaultWidth = width;
+            defaultHeight = height;
+            defaultFillColor = fillColor;
+            NewCanvasDialog.this.closeOperationOption = APPROVE_OPTION;
+            NewCanvasDialog.this.dispose();
         });
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                NewCanvasDialog.this.dispose();
-            }
-        });
+        cancelButton.addActionListener(e -> NewCanvasDialog.this.dispose());
 
         JPanel widthPanel = new JPanel();
         widthPanel.add(new JLabel("Width:"));

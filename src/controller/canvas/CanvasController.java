@@ -17,9 +17,9 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class CanvasController {
-    private MainFrame mainFrame;
-    private ToolPanel toolPanel;
-    private ColorPicker colorPicker;
+    private final MainFrame mainFrame;
+    private final ToolPanel toolPanel;
+    private final ColorPicker colorPicker;
     private final ColorToggler colorToggler;
     private final JPanel canvasPanel;
     private PixelCanvas canvas;
@@ -53,10 +53,10 @@ public class CanvasController {
         }
     }
 
-    public boolean createCanvas(PixelCanvas newCanvas) {
+    public void createCanvas(PixelCanvas newCanvas) {
         boolean closedCanvas = this.closeCanvas();
         if (!closedCanvas)
-            return false;
+            return;
 
         this.canvas = newCanvas;
         this.canvas.setSelectedTool(this.activeTool);
@@ -67,7 +67,6 @@ public class CanvasController {
         this.colorToggler.updateCanvas();
         this.mainFrame.getCanvasContainer().repaint();
         this.mainFrame.revalidate();
-        return true;
     }
 
     public boolean createCanvas(int width, int height) {
@@ -212,10 +211,6 @@ public class CanvasController {
         return Math.min(widthScale, heightScale);
     }
 
-    public void setMainFrame(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-    }
-
     public MainFrame getMainFrame() {
         return this.mainFrame;
     }
@@ -232,16 +227,8 @@ public class CanvasController {
         return toolPanel;
     }
 
-    public void setTools(ToolPanel tools) {
-        this.toolPanel = tools;
-    }
-
     public ColorPicker getColorPicker() {
         return colorPicker;
-    }
-
-    public void setColorPicker(ColorPicker colorPicker) {
-        this.colorPicker = colorPicker;
     }
 
     public JPanel getCanvasPanel() {

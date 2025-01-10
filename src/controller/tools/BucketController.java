@@ -3,16 +3,11 @@ package controller.tools;
 import java.awt.*;
 import java.awt.event.*;
 
-import javax.swing.ImageIcon;
-
 import ui_funny_paint.panel.PixelCanvas;
 
 
 public class BucketController extends Tool {
-	public BucketController() {
-		super();
-	}
-    public BucketController(Cursor cursor) {
+	public BucketController(Cursor cursor) {
 		super(cursor);
 	}
 

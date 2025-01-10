@@ -2,15 +2,11 @@ package controller.tools;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
+
 import ui_funny_paint.panel.PixelCanvas;
 
 public class BrushController extends Tool {
 	private Point previousPoint;
-
-	public BrushController() {
-		super();
-	}
 
 	public BrushController(Cursor cursor) {
 		super(cursor);

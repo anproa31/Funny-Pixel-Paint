@@ -9,12 +9,6 @@ public class EraserController extends Tool {
     private boolean pressed;
     private Point lastPoint;
 
-    public EraserController() {
-        super();
-        this.pressed = false;
-        this.lastPoint = null;
-    }
-
     public EraserController(Cursor cursor) {
         super(cursor);
         this.pressed = false;

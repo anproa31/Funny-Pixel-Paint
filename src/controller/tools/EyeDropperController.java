@@ -8,10 +8,6 @@ import java.awt.event.MouseEvent;
 
 public class EyeDropperController extends Tool {
 
-    public EyeDropperController() {
-        super();
-    }
-
     public EyeDropperController(Cursor cursor) {
         super(cursor);
     }

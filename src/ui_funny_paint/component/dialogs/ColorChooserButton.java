@@ -39,10 +39,6 @@ public class ColorChooserButton extends JButton {
         return new ImageIcon(image);
     }
 
-    public Color getSelectedColor() {
-        return current;
-    }
-
     public void setSelectedColor(Color newColor) {
         setSelectedColor(newColor, true);
     }

@@ -33,7 +33,6 @@ public class ColorButton extends JButton {
         graphics.setXORMode(Color.DARK_GRAY);
         graphics.drawRect(0, 0, width - 1, height - 1);
         image.flush();
-        ImageIcon icon = new ImageIcon(image);
-        return icon;
+        return new ImageIcon(image);
     }
 }

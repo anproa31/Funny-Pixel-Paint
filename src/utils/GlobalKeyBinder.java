@@ -7,8 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-
-@SuppressWarnings("serial")
 public class GlobalKeyBinder {
     private CanvasController controller;
 
